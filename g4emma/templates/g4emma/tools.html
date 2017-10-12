@@ -1,0 +1,92 @@
+{% extends "g4emma/base.html" %}
+
+<!-- Title -->
+{% block title %}{{ block.super }} - Tools{% endblock %}
+
+<!-- Navigation -->
+{% block nav_tools_class %}nav-pill-active{% endblock %}
+{% block nav_tools_url %}#{% endblock %}
+
+<!-- Main Content -->
+{% block main_content %}
+
+<div class="container-fluid tool-tiles">
+  <!-- Rigidity -->
+  <div class="row tool">
+    <div class="col-3 tool-desc">
+      <h2>Rigidity</h2>
+      <hr>
+      <p>Calculates the magnetic rigidity (RB) and the electric rigidity (RE). The maximum rigidities that EMMA can handle are, RB, max = 1.0 Tm and RE, max = 25 MV.</p>
+    </div> <!-- tool desc -->
+    <div class="col-2 tool-link">
+      <nav>
+        <a class="nav-pill" href="{% block tool_nav_rigidity_url %}{% url 'tools' %}{% endblock %}">Rigidity</a>
+      </nav>
+    </div> <!-- tool link -->
+
+    <div class="col-2 separator"></div>
+
+  <!-- Energy Loss -->
+    <div class="col-3 tool-desc">
+      <h2>Energy Loss</h2>
+      <hr>
+      <p>Calculates the mean energy loss and the 1σ straggling. If the ion is stopped in the target material, the mean range is given./p>
+    </div> <!-- col-8 desc -->
+    <div class="col-2 tool-link">
+      <nav>
+        <a class="{% block tool_nav_eloss_class %}nav-pill{% endblock %}"
+        href="{% block tool_nav_eloss_url %}{% url 'tools' %}{% endblock %}">Energy Loss</a>
+      </nav>
+    </div> <!-- col-3 link -->
+  </div> <!-- row -->
+
+  <!-- Charge State -->
+  <div class="row tool">
+    <div class="col-3 tool-desc">
+      <h2>Charge State</h2>
+      <hr>
+      <p>Calculates the mean (μ) and the standard deviation (σ) of the equilibrium charge-state distribution, which is assumed to be Gaussian, using various parametrizations.</p>
+    </div> <!-- tool desc -->
+    <div class="col-2 tool-link">
+      <nav>
+        <a class="{% block tool_nav_qstate_class %}nav-pill{% endblock %}"
+        href="{% block tool_nav_qstate_url %}{% url 'tools' %}{% endblock %}">Charge State</a>
+      </nav>
+    </div> <!-- tool link -->
+
+    <div class="col-2 separator"></div>
+
+  <!-- Multiple Scattering -->
+    <div class="col-3 tool-desc">
+      <h2>Multiple Scattering</h2>
+      <hr>
+      <p>Calculates the half-width of the angular distribution (α1/2) and the half-width of the lateral-displacement distribution (ρ1/2). Additional derived quantities are given to help the user assess the accuracy of the calculation.</p>
+    </div> <!-- tool desc -->
+    <div class="col-2 tool-link">
+      <nav>
+        <a class="{% block tool_nav_multiscatt_class %}nav-pill{% endblock %}"
+        href="{% block tool_nav_multiscatt_url %}{% url 'tools' %}{% endblock %}">Multiple Scattering</a>
+      </nav>
+    </div> <!-- tool link -->
+  </div> <!-- row -->
+
+  <!-- Fusion Evaporation -->
+  <div class="row tool">
+    <div class="col-3 tool-desc">
+      <h2>Fusion Evaporation</h2>
+      <hr>
+      <p>Estimates the average deflection angle and fractional speed reduction incurred to the recoil nucleus due to the evaporation process using the formulas of Handschug, Backe, and Bokemeyer, NIM 161 (1979) 117-122.</p>
+    </div> <!-- tool desc -->
+    <div class="col-2 tool-link">
+      <nav>
+        <a class="{% block tool_nav_fusevap_class %}nav-pill{% endblock %}"
+        href="{% block tool_nav_fusevap_url %}{% url 'tools' %}{% endblock %}">Fusion Evaporation</a>
+      </nav>
+    </div> <!-- tool link -->
+  </div> <!-- row -->
+
+</div> <!-- container -->
+
+
+
+{% endblock %}

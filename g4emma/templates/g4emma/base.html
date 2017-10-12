@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>{% block title %}GEANT 4 EMMA{% endblock %}</title> <!-- use block.super to extend if needed -->
+
+  </!-- Links -->
+  {% load static %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{% static 'g4emma/style.css' %}" type="text/css">
+</head>
+
+<body>
+  <!-- Start page-wrap -->
+  <div class="{% block page_wrap_class %}page-wrap{% endblock %}">
+
+    <!-- header -->
+    <a href="{% block header_url %}{% url 'home' %}{% endblock %}"> <!-- Make it a link back to this page -->
+      {% block header_content %}
+      <header class="container-fluid text-center">
+        <h1>GEANT 4 EMMA</h1>
+      </header>
+      {% endblock %}
+    </a>
+
+    <!-- Navigation bar -->
+    <nav>
+      <a class="{% block nav_home_class %}nav-pill{% endblock %}"
+      href="{% block nav_home_url %}{% url 'home' %}{% endblock %}">Home</a>
+      <a class="{% block nav_about_class %}nav-pill{% endblock %}"
+      href="{% block nav_about_url %}{% url 'about' %}{% endblock %}">About</a>
+      <a class="{% block nav_manual_class %}nav-pill{% endblock %}"
+      href="{% block nav_maunal_url %}{% url 'manual' %}{% endblock %}">Manual</a>
+      <a class="{% block nav_simulation_class %}nav-pill{% endblock %}"
+      href="{% block nav_simulation_url %}{% url 'simulation' %}{% endblock %}">Simulation</a>
+      <a class="{% block nav_tools_class %}nav-pill{% endblock %}"
+      href="{% block nav_tools_url %}{% url 'tools' %}{% endblock %}">Tools</a>
+      <!-- TODO: Add a dropdown for specific tools -->
+      <a class="{% block nav_admin_class %}nav-pill{% endblock %}"
+      href="{% block nav_admin_url %}{% url 'admin:index' %}{% endblock %}">Admin</a>
+    </nav>
+
+    <main role="main">
+      {% block main_content %}{% endblock %}
+    </main>
+
+  </div> <!-- End page-wrap -->
+
+  <!-- Footer -->
+  <footer class="footer container-fluid text-center">
+    <div class="row">
+      <a class="col" href="http://www.triumf.ca/">
+        <!-- I'll have to figure out where to store this image for it to be rendered -->
+        <img src="{% static 'g4emma/images/TRIUMF_logo_white.png' %}" alt="TRIUMF logo">
+      </a>
+      <a class="col"
+      href="{% block footer_contact_url %}{% url 'about' %}{% endblock %}"
+      >Contact Us</a>
+      <!-- Set the date when you're done -->
+      <p class="col">Date Updated: 2017-10-04</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "g4emma/base.html" %}
+
+<!-- Title -->
+{% block title %}{{ block.super }} - Simulation{% endblock %}
+
+<!-- Navigation -->
+{% block nav_simulation_class %}nav-pill-active{% endblock %}
+{% block nav_simulation_url %}#{% endblock %}
+
+<!-- Main Content -->
+{% block main_content %}
+
+  {% if form.errors %}
+    <p style="color: red;">
+      Please correct the error{{ form.errors|pluralize }} below.
+    </p>
+  {% endif %}
+
+  <form action="" method="post" novalidate>
+    <ul>
+      {{ form.as_ul }}
+    </ul>
+    {% csrf_token %}
+    <input type="submit" value="Submit">
+  </form>
+
+  {{ results }}
+
+
+{% endblock %}

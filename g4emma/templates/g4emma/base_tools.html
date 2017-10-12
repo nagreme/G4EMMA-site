@@ -1,0 +1,39 @@
+{% extends "g4emma/base.html" %}
+
+<!-- Title -->
+{% block title %}{{ block.super }} - Tools{% endblock %}
+
+<!-- Navigation -->
+{% block nav_tools_class %}nav-pill-active{% endblock %}
+{% block nav_tools_url %}#{% endblock %}
+
+<!-- Main Content -->
+{% block main_content %}
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <a class="{% block tool_nav_rigidity_class %}nav-pill{% endblock %}" href="{% block tool_nav_rigidity_url %}{% url 'tools' %}{% endblock %}">Rigidity</a>
+
+      <a class="{% block tool_nav_eloss_class %}nav-pill{% endblock %}" href="{% block tool_nav_eloss_url %}{% url 'tools' %}{% endblock %}">Energy Loss</a>
+
+      <a class="{% block tool_nav_qstate_class %}nav-pill{% endblock %}" href="{% block tool_nav_qstate_url %}{% url 'tools' %}{% endblock %}">Charge State</a>
+
+      <a class="{% block tool_nav_multiscatt_class %}nav-pill{% endblock %}" href="{% block tool_nav_multiscatt_url %}{% url 'tools' %}{% endblock %}">Multiple Scattering</a>
+
+      <a class="{% block tool_nav_fusevap_class %}nav-pill{% endblock %}" href="{% block tool_nav_fusevap_url %}{% url 'tools' %}{% endblock %}">Fusion Evaporation</a>
+    </div> <!-- col-3 -->
+
+    <div class="col-9">
+      <!-- {% block tool_content %}
+      {% endblock %}
+      something tool heading, tool input form, tool result display, tool explanation/manual
+
+      Or something else entirely! We might be switiching up some stuff with the tools so set them aside for now.
+    -->
+
+    </div> <!-- col-9 -->
+
+  </div> <!-- row -->
+
+</div> <!-- container -->
+{% endblock %}

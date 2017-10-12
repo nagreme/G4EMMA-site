@@ -1,0 +1,94 @@
+{% extends "g4emma/base.html" %}
+
+<!-- Title -->
+{% block title %}{{ block.super }} - Contact{% endblock %}
+
+<!-- Navigation -->
+{% block nav_about_class %}nav-pill-active{% endblock %}
+{% block nav_about_url %}#{% endblock %}
+
+<!-- Main Content -->
+{% block main_content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-9 about-main">
+
+      <!-- About Section -->
+      <section id="about">
+        <h1 class="info-section-title">About</h1>
+        <hr><br>
+        <h3 id="EMMA-section" class="info-section-subtitle">EMMA</h3>
+        <br>
+        <p class="info-section-paragraph">
+          EMMA (ElectroMagnetic Mass Analyser) is a recoil mass spectrometer for TRIUMF's ISAC-II facility. ISAC-II can provide intense beams of radioactive ions with masses up to at least 150 atomic mass units to international scientists studying nuclear structure and nuclear astrophysics at Canada's national subatomic physics lab. The energies of these beams will depend on the specific nuclei being accelerated, but typical top speeds will range from 10-20% of the speed of light .
+        </p>
+        <p class="info-section-paragraph">
+          At these energies, different types of nuclear reactions can be studied to learn about the structure of exotic nuclei and the nuclear reactions that produce the chemical elements in stars and stellar explosions. They include transfer reactions, which typically involve the pickup or removal of one or several protons and neutrons from the projectile, and fusion-evaporation reactions, in which the projectile and target fuse into a single, heavy, excited system that subsequently evaporates a small number of protons or neutrons. Some transfer reactions are interesting because they occur in the stars, and others because they can tell us about the nature of nuclei near the limits of stability, advancing our knowledge of the structure of matter and the character of the force that holds the nucleus together. Fusion-evaporation reactions are useful because they allow us to make and study new, exotic nuclei that have never before been studied in the laboratory.
+        </p>
+        <p class="info-section-paragraph">
+          In order to learn about the properties of the rare nuclei formed in transfer and fusion-evaporation reactions, as well as measure the rates of reactions that produce the chemical elements in stars, it is first necessary to identify the products of these reactions. An atomic nucleus can be uniquely identified by measuring its charge and its mass. The charge of a nucleus is simply the number of protons it contains, while its mass is the sum of the number of neutrons and protons that make it up.
+        </p>
+        <p class="info-section-paragraph">
+          How can one measure the mass and charge of a nucleus? The trajectories of nuclei in magnetic fields are bent according to their momentum and charge, while in electric fields the trajectories depend on the energy and charge of the nucleus. By combining electric and magnetic fields in a particular way, one can cancel the energy and momentum dependence of the trajectories, and bend them according to their masses and charges alone. Hence a device that combines electric and magnetic fields in a clever way can be used to separate an interesting nucleus produced in a nuclear reaction from all of the other nuclei produced in different nuclear reactions and from the beam used to initiate the reactions. When additional focusing elements are used, the nuclei passing through the separator can be focussed in different positions according to their mass and charge. These devices are called recoil mass spectrometers, because they analyse the products of nuclear reactions, called recoils, dispersing them according to their mass and charge. EMMA is such a device.
+        </p>
+        <p class="info-section-paragraph">
+          A number of recoil mass spectrometers have been designed, built, and used since the first was commissioned nearly fifty years ago at Brookhaven National Lab. Some of the labs where operational recoil mass spectrometers can be found include the Japan Atomic Energy Research Institute, the Nuclear Science Center in India, the <a href="https://www.gsi.de/en/work/research/nustarenna/nustarenna_divisions/she_physik/experimentel_setup/ship.htm">GSI</a> in Germany, and <a href="http://www.phy.anl.gov/fma/">Argonne National Lab</a> in the USA.
+        </p>
+        <p class="info-section-paragraph">
+          EMMA has been installed in the ISAC-II experimental hall and is currently in the commissioning stage. A photo and a mass/charge spectrum obtained at the focal plane of the device during its first test with a heavy ion beam are shown below. An article describing EMMA in more detail can be found <a href="http://davids.triumf.ca/docs/EMMA.pdf">by clicking here</a>. The spectrometer has design maximum electric and magnetic rigidities of 20 MV and 0.9 Tm respectively, an energy acceptance of ± 20%, an m/q acceptance of ± 4%, and a solid angle of ± 3.6 deg by ± 3.6 deg = 16 msr. These design values are to be confirmed during commissioning tests in 2017.
+        </p>
+        <br><br>
+        <h3 id="G4EMMA-section" class="info-section-subtitle">G4EMMA</h3>
+        <br>
+        <p>Something about the GEANT4 simulation of EMMA<br>
+        Do we want to say something about geant4 and root?<br>
+        This page would also be where we add info or link to source code and a docker distribution.</p>
+      </section> <!-- End About Section -->
+
+      <br><br><br>
+
+
+      <!-- Contact Section -->
+      <section id="contact">
+        <h1 class="info-section-title">Contact</h1>
+        <hr>
+        <p class="info-section-paragraph">
+          For inquiries about EMMA, please contact
+          <a href="mailto:davids@triumf.ca?subject=EMMA_website">Barry Davids</a>.
+        </p>
+      </section> <!-- End Contact Section -->
+
+    </div> <!-- col-8 -->
+
+    <!-- Sidebar --->
+    <!-- TODO: change link colours to triumf blue -->
+    <div class="col-2 offset-1 sidebar">
+      <div class="sidebar-module">
+        <h5 class="about-sidebar-links-header">Navigation</h5>
+        <ul class="list-unstyled">
+          <li><a href="#About">About</a></li>
+          <ul class="list-unstyled">
+            <li><a href="#EMMA">EMMA</a></li>
+            <li><a href="#G4EMMA">G4EMMA</a></li>
+          </ul>
+          <li><a href="#Contact">Contact</a></li> <!-- TODO: Add anchor elements + smooth scrolling here -->
+        </ul>
+      </div>
+      <div class="sidebar-module">
+        <h5 class="about-sidebar-links-header">Useful Links</h5>
+        <ul class="sidebar-link-list">
+          <li><a href="http://www.triumf.info/wiki/exp-prog/index.php/ISAC_%28Isotope_Separator_and_ACcelerator%29">ISAC Wiki Page</a></li>
+          <li><a href="http://geant4.cern.ch/G4UsersDocuments/UsersGuides/PhysicsReferenceManual/html/PhysicsReferenceManual.html">GEANT4 Physics Reference Manual</a></li>
+        </ul>
+      </div>
+
+    </div> <!-- End Sidebar -->
+
+
+  </div> <!-- row -->
+
+</div> <!-- container -->
+{% endblock %}
+
+<!-- Footer -->
+{% block footer_contact_url %}#{% endblock %}

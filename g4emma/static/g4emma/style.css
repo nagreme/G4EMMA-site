@@ -1,0 +1,215 @@
+
+
+html, body{
+  height: 100%;
+  /* This is just to make it a bit easier on my eyes */
+  background-color: #F0F0F0;
+  /*background-color: #AAA;*/
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/*-----------------------------------------
+* BODY STYLES
+* -----------------------------------------*/
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+/* override above font for all headers */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Toggle to see containers */
+/*body * {
+  border: 1px solid #000;
+}*/
+
+.page-wrap-home {
+  background-image: url("images/EMMA.JPG");
+  background-attachment: fixed;
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
+/*-----------------------------------------
+* JUMBOTRON STYLES
+* -----------------------------------------*/
+.jumbotron-fluid {
+  text-align: center;
+  padding: 40px;
+  background-color: #005BAA;
+}
+
+.jumbotron-fluid h1 {
+  font-size: 4em;
+  font-weight: bold;
+  color: #F0F0F0;
+  text-decoration: none;
+}
+
+/*-----------------------------------------
+* HEADER STYLES
+* -----------------------------------------*/
+a {
+  margin: 0px;
+  padding: 0px;
+}
+
+a header {
+  color: #F0F0F0;
+  background-color: #005BAA;
+  padding: 20px;
+}
+
+ a header h1 {
+   font-weight: bold;
+   font-size: 2em;
+ }
+
+
+
+/*-----------------------------------------
+* NAV STYLES
+* -----------------------------------------*/
+nav {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 10px 50px;
+  border-radius: 7px;
+  margin: 5px;
+}
+
+nav a:hover {
+  text-decoration: none;
+}
+
+nav a.nav-pill {
+  background-color: #CCC;
+  color: #005BAA;
+}
+
+nav a.nav-pill:hover {
+  background-color: #AAA;
+  color: #054d8c;
+}
+
+nav a.nav-pill:active {
+  background-color: #777;
+}
+
+nav a.nav-pill-active {
+  background-color: #005BAA;
+  color: #F0F0F0;
+}
+
+nav a.nav-pill-active:active {
+  background-color: #054d8c;
+  color: #F0F0F0;
+}
+
+
+/*-----------------------------------------
+* MAIN STYLES
+* -----------------------------------------*/
+main {
+  padding-top: 80px;
+  padding-left: 70px;
+  padding-right: 70px;
+  color: #333;
+}
+
+.info-section-title {
+  font-weight: bold;
+  color: #666;
+}
+
+.sidebar {
+  padding-left: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-module {
+  padding: 40px 0px;
+}
+.sidebar-module ul {
+  padding: 5px 5px;
+}
+.sidebar-module ul ul {
+  padding: 5px 10px;
+}
+
+.tool {
+  padding-bottom: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  align-items: center;
+}
+
+.tool-link {
+  padding-left: 50px;
+}
+
+
+/*-----------------------------------------
+* FOOTER STYLES
+* -----------------------------------------*/
+footer {
+  color: #F0F0F0;
+  background-color: #005BAA;
+  font-weight: bold;
+}
+
+footer a:link, footer a:visited {
+  color: #F0F0F0;
+}
+
+footer a:hover {
+  color: #CCC;
+  text-decoration: none;
+}
+
+footer img {
+  width: auto;
+  height: 2rem;
+}
+
+
+/*-----------------------------------------
+* STICKY FOOTER STYLES
+* -----------------------------------------*/
+/*http://css-tricks.com/snippets/css/sticky-footer */
+.page-wrap, .page-wrap-home {
+  min-height: 100%;
+  margin-bottom: -45px; /* must be the same height as footer */
+}
+
+.page-wrap:after, .page-wrap-home:after {
+  content: "";
+  display: block;
+}
+
+footer .page-wrap:after, footer .page-wrap-home:after {
+  height: 45px; /* however tall you want the footer to be */
+}
+
+footer {
+  line-height: 45px; /* Vertically center the text there */
+}
+
+/* TODO: This aligns the text vertically but it lengthens the page a bit making you need to scrool??? */
