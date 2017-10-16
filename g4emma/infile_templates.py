@@ -10,12 +10,13 @@
 
 alphaSource_datfile = ("{alpha_source_present}\t# YES/NO\n"
                        "{alpha_source_kinetic_e}\t# alpha particle kinetic energy (MeV)\n"
-                       "{alpha_source_max_agnle}\t# max angle alpha source (deg)")
+                       "{alpha_source_max_angle}\t# max angle alpha source (deg)")
 
 beam_datfile = ("{num_events}\t# number of events\n"
                 "{beam_proton_num}\t# beam Z\n"
                 "{beam_nucleon_num}\t# beam A\n"
-                "{beam_charge_state}\t# beam kinetic energy (MeV)\n"
+                "{beam_charge_state}\t# beam charge state Q\n"
+                "{beam_kinetic_e}\t# beam kinetic energy (MeV)\n"
                 "{beam_e_spread}\t# fractional energy spread (FWHM)\n"
                 "{beam_diameter}\t# beam-spot diameter (mm)\n"
                 "{beam_trans_emittance}\t# normalized transverse emittance (pi mm mrad)\n")
@@ -48,6 +49,7 @@ reaction_datfile = ("# Two-body reaction: 1 + 2 --> 3 + 4"
                     "{rxn_recoil_excitation_e}\t# excitation energy of recoil\n"
                     "{rxn_cross_sec}\t# solid-angle averaged cross section (mb/sr) inside the angular range specified above\n")
 
+#TODO: Is there a variable part if SLIT="IN"?
 slits_datfile = ("# SLITS 1 (HORIZONTAL)"
                  "{slit_1_inserted}\t# OUT/(mm)\n"
                  "# SLITS 2 (HORIZONTAL)"
