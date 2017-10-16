@@ -63,6 +63,22 @@ def setup_unique_userdir(user_dirs_path):
 
     return userdir
 
+#---------------------------------------------------
+# merge_with_defaults
+# PARAMETERS: The user input as a dictionary
+# PURPOSE: Overlay the user'S input of a set of default
+#          values to get a complete set of input values
+#---------------------------------------------------
+def merge_with_defaults(form_dict):
+    # so we need a set of default values for most of the input fields
+    # and then merge the two dictionaries with the user values overwriting the defaults
+    if isinstance(form_dict, dict):
+        #setup default values
+        default_vals = dict(x = "")
+        default_vals.update(form_dict)
+    else:
+        #raise an error
+
 
 #---------------------------------------------------
 # write_input_files
@@ -72,4 +88,5 @@ def setup_unique_userdir(user_dirs_path):
 # PURPOSE: Set up the input files in the specified directory
 #---------------------------------------------------
 def write_input_files(userdir, form_dict):
-    
+    # once we have a complete set of input, write it to the input files
+    # be careful of the variable parts
