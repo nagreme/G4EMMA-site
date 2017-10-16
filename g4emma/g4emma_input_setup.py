@@ -73,8 +73,68 @@ def merge_with_defaults(form_dict):
     # so we need a set of default values for most of the input fields
     # and then merge the two dictionaries with the user values overwriting the defaults
     if isinstance(form_dict, dict):
-        #setup default values
-        default_vals = dict(x = "")
+        #setup default values (they're all 0/"OUT"/"NO"/empty string)
+        default_vals = dict(alpha_source_present = "NO",
+                            alpha_source_kinetic_e = 0,
+                            alpha_source_max_angle = 0,
+                            #--------
+                            # These 5 are the absolute required minimum for the simulation
+                            # num_events = 0, #required
+                            # beam_proton_num = 0, #required
+                            # beam_nucleon_num = 0, #required
+                            # beam_charge_state = 0, #required
+                            # beam_kinetic_e = 0, #required
+                            #--------
+                            beam_e_spread = 0,
+                            beam_diameter = 0 ,
+                            beam_trans_emittance = 0,
+                            #--------
+                            # These 4 should be the same as the beam params above by default
+                            center_traj_proton_num = form_dict['beam_proton_num'],
+                            center_traj_nucleon_num = form_dict['beam_nucleon_num'],
+                            center_traj_charge_state = form_dict['beam_charge_state'],
+                            center_traj_kinetic_e = form_dict['beam_kinetic_e'],
+                            #--------
+                            ion_chamber_inserted = "OUT",
+                            ion_chamber_pressure = 0,
+                            ion_chamber_temp = 0,
+                            mwpc_inserted = "OUT",
+                            mwpc_pressure = 0,
+                            mwpc_temp = 0,
+                            rxn_z1_beam = 0,
+                            rxn_a1 = 0,
+                            rxn_z2_target = 0,
+                            rxn_a2 = 0,
+                            rxn_z3_recoil = 0,
+                            rxn_a3 = 0,
+                            rxn_z4_ejectile = 0,
+                            rxn_a4 = 0,
+                            rxn_min_angle = 0,
+                            rxn_max_angle = 0,
+                            rxn_recoil_charge = 0,
+                            rxn_recoil_excitation_e = 0,
+                            rxn_cross_sec = 0,
+                            slit_1_inserted = "OUT",
+                            slit_2_inserted = "OUT",
+                            slit_3_inserted = "OUT",
+                            slit_4_inserted = "OUT",
+                            target_inserted = "OUT",
+                            target_thickness = 0,
+                            target_z_pos = 0,
+                            target_density = 0,
+                            target_num_elems = 0,
+                            target_elems = 0,
+                            degreder_1_inserted = "OUT",
+                            degrader_1_thickness = 0,
+                            degrader_1_density = 0,
+                            degrader_1_num_elems = 0,
+                            degrader_1_elems = "",
+                            degrader_2_inserted = "OUT",
+                            degrader_2_thickness = 0,
+                            degrader_2_density = 0,
+                            degrader_2_num_elems = 0,
+                            degrader_2_elems = "")
+
         default_vals.update(form_dict)
     else:
         #raise an error
