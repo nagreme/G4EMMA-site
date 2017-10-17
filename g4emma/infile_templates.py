@@ -19,7 +19,7 @@ beam_datfile = ("{num_events}\t# number of events\n"
                 "{beam_kinetic_e}\t# beam kinetic energy (MeV)\n"
                 "{beam_e_spread}\t# fractional energy spread (FWHM)\n"
                 "{beam_diameter}\t# beam-spot diameter (mm)\n"
-                "{beam_trans_emittance}\t# normalized transverse emittance (pi mm mrad)\n")
+                "{beam_trans_emittance}\t# normalized transverse emittance (pi mm mrad)")
 
 centralTrajectory_datfile = ("{center_traj_proton_num}\t# Z\n"
                              "{center_traj_nucleon_num}\t# A\n"
@@ -49,15 +49,14 @@ reaction_datfile = ("# Two-body reaction: 1 + 2 --> 3 + 4"
                     "{rxn_recoil_excitation_e}\t# excitation energy of recoil\n"
                     "{rxn_cross_sec}\t# solid-angle averaged cross section (mb/sr) inside the angular range specified above\n")
 
-#TODO: Is there a variable part if SLIT="IN"?
-slits_datfile = ("# SLITS 1 (HORIZONTAL)"
-                 "{slit_1_inserted}\t# OUT/(mm)\n"
-                 "# SLITS 2 (HORIZONTAL)"
-                 "{slit_2_inserted}\t# OUT/(mm)\n"
-                 "# SLITS 3 (RIGHT)"
-                 "{slit_3_inserted}\t# OUT/(mm)\n"
-                 "# SLITS 4 (LEFT)"
-                 "{slit_4_inserted}\t# OUT/(mm)\n")
+slits_datfile = ("# SLITS 1 (HORIZONTAL)\n"
+                 "{slit_1_inserted}\t\t# OUT/(mm)\n"
+                 "# SLITS 2 (HORIZONTAL)\n"
+                 "{slit_2_inserted}\t\t# OUT/(mm)\n"
+                 "# SLITS 3 (RIGHT)\n"
+                 "{slit_3_inserted}\t\t# OUT/(mm)\n"
+                 "# SLITS 4 (LEFT)\n"
+                 "{slit_4_inserted}\t\t# OUT/(mm)\n")
 
 targetDegraders_datfile = ("# TARGET"
                            "{target_inserted}\t# IN/OUT/\n"
@@ -65,18 +64,18 @@ targetDegraders_datfile = ("# TARGET"
                            "{target_z_pos}\t# target z position offset (cm)\n"
                            "{target_density}\t# density (g/cm3)\n"
                            "{target_num_elems}\t# number of elements\n"
-                           "{target_elems}\n" #variable number of elements here
+                           "{target_elems}" #variable number of elements here
                            "# DEGRADER 1"
                            "{degreder_1_inserted}\t# IN/OUT\n"
                            "{degrader_1_thickness}\t# thickness (um)\n"
                            "{degrader_1_density}\t# density (g/cm3)\n"
                            "{degrader_1_num_elems}\t# number of elements\n"
-                           "{degrader_1_elems}\n" #variable number of elements here
+                           "{degrader_1_elems}" #variable number of elements here
                            "# DEGRADER 2"
                            "{degrader_2_inserted}\t# IN/OUT\n"
                            "{degrader_2_thickness}\t# thickness (um)\n"
                            "{degrader_2_density}\t# density (g/cm3)\n"
                            "{degrader_2_num_elems}\t# number of elements\n"
-                           "{degrader_2_elems}\n") #variable number of elements here
+                           "{degrader_2_elems}") #variable number of elements here
 
-element_format_str = "{elem_proton_num} {elem_molar_mass} {elem_weight_ratio}\t# element {elem_num}: Z, M, (g/mol), mass fraction"
+element_format_str = "{elem_proton_num} {elem_molar_mass} {elem_weight_ratio}\t# element {elem_num}: Z, M, (g/mol), mass fraction\n"

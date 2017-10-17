@@ -13,8 +13,9 @@
 #===========================
 from shlex import quote
 import subprocess as sp
+import re
 from pathlib import Path
-
+import g4emma.infile_templates as IFileTemplates
 
 #===========================
 # FUCNTIONS
@@ -32,6 +33,7 @@ def sanitize_input_dict(form_dict):
                 form_dict[k] = quote(form_dict[k])
     else:
         # TODO: raise an error if not dictionary?
+        print("error: sanitize_input_dict, not dict") # placeholder
 
 
 #---------------------------------------------------
@@ -42,22 +44,28 @@ def sanitize_input_dict(form_dict):
 # PURPOSE: Setup unique directories so different users
 #          running the simulation won't interfere with
 #          each other
+#
+# This should work assuming that PIDs are unique during
+# the entire runtime of the server. This may cause problems
+# if the server is restarted but the goal is to have pretty
+# stringent clean up so this should hopefully not be a problem
 #---------------------------------------------------
 def setup_unique_userdir(user_dirs_path):
-    # This should work assuming that PIDs are unique during
-    # the entire runtime of the server. This may cause problems
-    # if the server is restarted but the goal is to have pretty
-    # stringent clean up so this should hopefully not be a problem
-
     # Get a unique name
-    userdir = "{}/UserDir_{}".format(user_dirs_path, sp.check_output("ps | grep ps | sed -r 's/([0-9]*).*/\1/'"), shell=True)
+    unique_part = sp.check_output("ps | grep ps", shell=True)
+
+    #the slicing strips off extra quotes and a char: b'str_content'
+    matched_part = re.match("([0-9]*)", str(unique_part)[2:-1])
+
+    # Build full path
+    userdir = "{}/UserDir_{}".format(user_dirs_path, matched_part.group(1))
 
     # Setup the directory
-    if !Path(userdir).exists():
+    if not Path(userdir).exists():
         Path(userdir).mkdir()
 
     else:
-        userdir = none
+        userdir = None
 
     # The subdirectories will be created when and where needed (where input files are written and in the wrapper script)
 
@@ -123,7 +131,7 @@ def merge_with_defaults(form_dict):
                             target_z_pos = 0,
                             target_density = 0,
                             target_num_elems = 0,
-                            target_elems = 0,
+                            target_elems = "",
                             degreder_1_inserted = "OUT",
                             degrader_1_thickness = 0,
                             degrader_1_density = 0,
@@ -136,8 +144,12 @@ def merge_with_defaults(form_dict):
                             degrader_2_elems = "")
 
         default_vals.update(form_dict)
+
     else:
         #raise an error
+        print("error: merge_with_defaults, not dict") # placeholder
+
+    return default_vals
 
 
 #---------------------------------------------------
@@ -148,5 +160,74 @@ def merge_with_defaults(form_dict):
 # PURPOSE: Set up the input files in the specified directory
 #---------------------------------------------------
 def write_input_files(userdir, form_dict):
-    # once we have a complete set of input, write it to the input files
-    # be careful of the variable parts
+    # Make the input files directory
+    infile_dir_name = "/User_Input"
+    if Path(userdir).exists():
+        infile_dir_path = userdir + infile_dir_name
+        Path(infile_dir_path).mkdir()
+
+        # input file names
+        alphaSource_file = infile_dir_path + "/alphaSource.dat"
+        beam_file = infile_dir_path + "/beam.dat"
+        central_traj_file = infile_dir_path + "/centralTrajectory.dat"
+        ion_chamber_file = infile_dir_path + "/ionChamber.dat"
+        mwpc_file = infile_dir_path + "/mwpc.dat"
+        rxn_file = infile_dir_path + "/reaction.dat"
+        slits_file = infile_dir_path + "/slits.dat"
+        target_degraders_file = infile_dir_path + "/targetDegraders.dat"
+
+        # write user input to the input files, be careful of the variable parts
+        # write alphaSource
+        f = open(alphaSource_file, 'w')
+        f.write(IFileTemplates.alphaSource_datfile.format(**form_dict))
+        f.close()
+
+        # write beam
+        f = open(beam_file, 'w')
+        f.write(IFileTemplates.beam_datfile.format(**form_dict))
+        f.close()
+
+        # write central trajectory
+        f = open(central_traj_file, 'w')
+        f.write(IFileTemplates.centralTrajectory_datfile.format(**form_dict))
+        f.close()
+
+        # write ion chamber
+        f = open(ion_chamber_file, 'w')
+        f.write(IFileTemplates.ionChamber_datfile.format(**form_dict))
+        f.close()
+
+        # write mwpc
+        f = open(mwpc_file, 'w')
+        f.write(IFileTemplates.mwpc_datfile.format(**form_dict))
+        f.close()
+
+        # write reaction
+        f = open(rxn_file, 'w')
+        f.write(IFileTemplates.reaction_datfile.format(**form_dict))
+        f.close()
+
+        # write slits
+        f = open(slits_file, 'w')
+        f.write(IFileTemplates.slits_datfile.format(**form_dict))
+        f.close()
+
+        # write target degraders
+        f = open(target_degraders_file, 'w')
+        f.write(IFileTemplates.targetDegraders_datfile.format(**form_dict))
+        f.close()
+
+    else:
+        # raise error
+        print("error: write_input_files, user dir path doesn't exist")
+
+
+
+
+
+
+#TODO: I might want to make a helper method to deal with writing target degraders datfile because it will be more complex
+
+
+
+#
