@@ -16,13 +16,30 @@ def manual(request):
 def simulation(request):
     results = "" #if there has been no post request, there are no results
 
-    if request.method == 'POST':
-        beam_form = G4Forms.BeamForm(request.POST)
-        beam_emit_form = G4Forms.BeamEmittanceForm(request.POST)
-        central_traj_form = G4Forms.CentralTrajectoryForm(request.POST)
+    forms_list = [G4Forms.BeamForm, G4Forms.BeamEmittanceForm, G4Forms.CentralTrajectoryForm]
 
-        if form.is_valid():
-            sim_params = form.cleaned_data
+    if request.method == 'POST':
+        # beam_form = G4Forms.BeamForm(request.POST)
+        # beam_emit_form = G4Forms.BeamEmittanceForm(request.POST)
+        # central_traj_form = G4Forms.CentralTrajectoryForm(request.POST)
+
+        forms_are_all_valid = True
+
+        for index, input_form in enumerate(forms_list):
+            #setup the forms
+            forms_list[index] = input_form(request.POST)
+
+            #test their validity
+            forms_are_all_valid = forms_are_all_valid and forms_list[index].is_valid()
+
+
+        if forms_are_all_valid:
+            # sim_params = form.cleaned_data
+            sim_params = {} #setup a blank start
+
+            for input_form in forms_list:
+                #agglomerate all the forms' input into one dictionary
+                sim_params.update(input_form.cleaned_data)
 
             # Properly escape/quote strings (the numbers are restrained by django)
             G4ISetup.sanitize_input_dict(sim_params)
@@ -56,14 +73,14 @@ def simulation(request):
             # results = sp.check_output(". G4EMMA_wrapper.sh", shell=True, universal_newlines=True)
             # results = str(results) + str(sim_params)
 
-            results = command
+            results = command + str(sim_params)
 
     else:
-        beam_form = G4Forms.BeamForm()
-        beam_emit_form = G4Forms.BeamEmittanceForm()
-        central_traj_form = G4Forms.CentralTrajectoryForm()
+        for index, input_form in enumerate(forms_list):
+            #setup the forms
+            forms_list[index] = input_form()
 
-    return render(request, 'g4emma/simulation.html', {'beam_form':beam_form, 'beam_emit_form':beam_emit_form, 'central_traj_form':central_traj_form, 'results':results})
+    return render(request, 'g4emma/simulation.html', {'forms_list': forms_list, 'results':results})
 
 
 def tools(request):
