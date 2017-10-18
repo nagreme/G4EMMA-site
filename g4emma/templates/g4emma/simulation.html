@@ -19,7 +19,9 @@
   <form action="" method="post" novalidate>
     <ul>
       {% for input_form in forms_list %}
-       {{ input_form.as_ul }}
+        <div class="{{input_form.name}}">
+          {{ input_form.as_ul }}
+        </div>
       {% endfor %}
     </ul>
     {% csrf_token %}

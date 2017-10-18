@@ -16,13 +16,9 @@ def manual(request):
 def simulation(request):
     results = "" #if there has been no post request, there are no results
 
-    forms_list = [G4Forms.BeamForm, G4Forms.BeamEmittanceForm, G4Forms.CentralTrajectoryForm]
+    forms_list = [G4Forms.BeamForm, G4Forms.BeamEmittanceChoiceForm, G4Forms.BeamEmittanceForm, G4Forms.CentralTrajectoryChoiceForm, G4Forms.CentralTrajectoryForm]
 
     if request.method == 'POST':
-        # beam_form = G4Forms.BeamForm(request.POST)
-        # beam_emit_form = G4Forms.BeamEmittanceForm(request.POST)
-        # central_traj_form = G4Forms.CentralTrajectoryForm(request.POST)
-
         forms_are_all_valid = True
 
         for index, input_form in enumerate(forms_list):
@@ -34,7 +30,6 @@ def simulation(request):
 
 
         if forms_are_all_valid:
-            # sim_params = form.cleaned_data
             sim_params = {} #setup a blank start
 
             for input_form in forms_list:
