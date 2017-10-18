@@ -65,5 +65,6 @@ def simulation(request):
 
     return render(request, 'g4emma/simulation.html', {'beam_form':beam_form, 'beam_emit_form':beam_emit_form, 'central_traj_form':central_traj_form, 'results':results})
 
+
 def tools(request):
     return render(request, 'g4emma/tools.html')
