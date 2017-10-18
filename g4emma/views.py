@@ -1,6 +1,6 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from g4emma.forms import SimulationForm
+import g4emma.forms as G4Forms
 import subprocess as sp
 import g4emma.g4emma_input_setup as G4ISetup
 
@@ -17,7 +17,9 @@ def simulation(request):
     results = "" #if there has been no post request, there are no results
 
     if request.method == 'POST':
-        form = SimulationForm(request.POST)
+        beam_form = G4Forms.BeamForm(request.POST)
+        beam_emit_form = G4Forms.BeamEmittanceForm(request.POST)
+        central_traj_form = G4Forms.CentralTrajectoryForm(request.POST)
 
         if form.is_valid():
             sim_params = form.cleaned_data
@@ -57,9 +59,11 @@ def simulation(request):
             results = command
 
     else:
-        form = SimulationForm()
+        beam_form = G4Forms.BeamForm()
+        beam_emit_form = G4Forms.BeamEmittanceForm()
+        central_traj_form = G4Forms.CentralTrajectoryForm()
 
-    return render(request, 'g4emma/simulation.html', {'form': form, 'results':results})
+    return render(request, 'g4emma/simulation.html', {'beam_form':beam_form, 'beam_emit_form':beam_emit_form, 'central_traj_form':central_traj_form, 'results':results})
 
 def tools(request):
     return render(request, 'g4emma/tools.html')

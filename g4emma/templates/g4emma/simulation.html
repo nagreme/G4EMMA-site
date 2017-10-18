@@ -18,7 +18,9 @@
 
   <form action="" method="post" novalidate>
     <ul>
-      {{ form.as_ul }}
+      {{ beam_form.as_ul }}
+      {{ beam_emit_form.as_ul }}
+      {{ central_traj_form.as_ul }}
     </ul>
     {% csrf_token %}
     <input type="submit" value="Submit">
