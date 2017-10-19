@@ -3,6 +3,12 @@
 <!-- Title -->
 {% block title %}{{ block.super }} - Simulation{% endblock %}
 
+{% block js_links %}
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{% static 'g4emma/forms_visibility_control.js' %}"></script>
+{% endblock %}
+
 <!-- Navigation -->
 {% block nav_simulation_class %}nav-pill-active{% endblock %}
 {% block nav_simulation_url %}#{% endblock %}
@@ -23,10 +29,12 @@
           {{ input_form.as_ul }}
         </div>
       {% endfor %}
+
     </ul>
     {% csrf_token %}
     <input type="submit" value="Submit">
   </form>
+
 
   {{ results }}
 
