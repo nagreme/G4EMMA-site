@@ -20,9 +20,9 @@ class BeamEmittanceChoiceForm(forms.Form):
 
 class BeamEmittanceForm(forms.Form):
     name = "beam_emittance_form"
-    beam_e_spread = forms.DecimalField(label="\u03b4E/E", help_text="% (FWHM, beam energy spread)")
-    beam_diameter = forms.DecimalField(label="d", help_text="mm (beam diameter)")
-    beam_trans_emittance = forms.DecimalField(label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)")
+    beam_e_spread = forms.DecimalField(label="\u03b4E/E", help_text="% (FWHM, beam energy spread)", required=False)
+    beam_diameter = forms.DecimalField(label="d", help_text="mm (beam diameter)", required=False)
+    beam_trans_emittance = forms.DecimalField(label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)", required=False)
 
 
 class CentralTrajectoryChoiceForm(forms.Form):
@@ -37,7 +37,7 @@ class CentralTrajectoryChoiceForm(forms.Form):
 
 class CentralTrajectoryForm(forms.Form):
     name = "central_traj_form"
-    center_traj_proton_num = forms.IntegerField(label="ZC", help_text="(Proton number)")
-    center_traj_nucleon_num = forms.IntegerField(label="AC", help_text="(Nucleon number)")
-    center_traj_charge_state = forms.IntegerField(label="QC", help_text="(Charge state)")
-    center_traj_kinetic_e = forms.DecimalField(label="EC", help_text="MeV (Kinetic Energy)")
+    center_traj_proton_num = forms.IntegerField(label="ZC", help_text="(Proton number)", required=False)
+    center_traj_nucleon_num = forms.IntegerField(label="AC", help_text="(Nucleon number)", required=False)
+    center_traj_charge_state = forms.IntegerField(label="QC", help_text="(Charge state)", required=False)
+    center_traj_kinetic_e = forms.DecimalField(label="EC", help_text="MeV (Kinetic Energy)", required=False)
