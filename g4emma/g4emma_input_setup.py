@@ -80,6 +80,13 @@ def setup_unique_userdir(user_dirs_path):
 def merge_with_defaults(form_dict):
     # so we need a set of default values for most of the input fields
     # and then merge the two dictionaries with the user values overwriting the defaults
+
+    # Remove the entries that have None as a value because we need those overwritten by the defaults
+    # Since I can't remove items from a dictionary while iterating over it a quick fix is to wrap it in a list vvv
+    for key,value in list(form_dict.items()):
+        if value is None:
+            del form_dict[key]
+
     if isinstance(form_dict, dict):
         #setup default values (they're all 0/"OUT"/"NO"/empty string)
         default_vals = dict(alpha_source_present = "NO",
