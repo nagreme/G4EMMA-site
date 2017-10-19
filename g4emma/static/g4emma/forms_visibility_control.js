@@ -9,8 +9,20 @@
 //     }
 // });
 
+// radio buttons toggle
 $(document).ready(function(){
+
+  var optional_forms = $(".beam_emittance_form, .central_traj_form");
+  optional_forms.hide();
+
+  // toggle beam emittance form
   $("#id_specify_beam_emittance").change(function(){
     $(".beam_emittance_form").toggle();
   });
+
+
+  // toggle central trajectory form
+  $("#id_specify_central_trajectory").change(function(){
+    $(".central_traj_form").toggle();
+  })
 });
