@@ -18,6 +18,7 @@ $(document).ready(function(){
   // toggle beam emittance form
   $("#id_specify_beam_emittance").change(function(){
     $(".beam_emittance_form").toggle();
+    $(".beam_emittance_form input").val("");
   });
 
 
