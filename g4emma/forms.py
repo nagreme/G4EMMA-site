@@ -1,5 +1,7 @@
 from django import forms
 
+# Note: I use 0 and 1 instead of booleans to allow the JS to use them easily
+
 class BeamForm(forms.Form):
     name = "beam_form"
     num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events)")
@@ -12,28 +14,28 @@ class BeamForm(forms.Form):
 class BeamEmittanceChoiceForm(forms.Form):
     name = "beam_emittance_choice_form"
     BEAM_EMITTANCE_CHOICES = (
-        (False, "Zero"), #the first value is the actual value in the code
-        (True, "Specify") # the second is the value the user sees
+        (0, "Zero"), #the first value is the actual value in the code
+        (1, "Specify") # the second is the value the user sees
     )
     # toggle specify/zero
-    specify_beam_emittance = forms.ChoiceField(required=True, label="Beam emittance", widget=forms.RadioSelect(), choices = BEAM_EMITTANCE_CHOICES, initial=False)
+    specify_beam_emittance = forms.ChoiceField(required=True, label="Beam emittance", choices = BEAM_EMITTANCE_CHOICES, initial=0)
 
 class BeamEmittanceForm(forms.Form):
     name = "beam_emittance_form"
     beam_e_spread = forms.DecimalField(label="\u03b4E/E", help_text="% (FWHM, beam energy spread)", required=False)
     beam_diameter = forms.DecimalField(label="d", help_text="mm (beam diameter)", required=False)
-    beam_trans_emittance = forms.DecimalField(label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)", required=False)
+    beam_trans_emittance = forms.DecimalField(label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)", required=0)
 
 
 class CentralTrajectoryChoiceForm(forms.Form):
     name = "central_traj_choice_form"
     CENTRAL_TRAJECTORY_CHOICES = (
-        (False, "Same as beam"),
-        (True, "Specify")
+        (0, "Same as beam"),
+        (1, "Specify")
     )
     specify_central_trajectory = forms.ChoiceField(required=True,
     label="Central trajectory", choices = CENTRAL_TRAJECTORY_CHOICES,
-    initial=False)
+    initial=1)
 
 class CentralTrajectoryForm(forms.Form):
     name = "central_traj_form"

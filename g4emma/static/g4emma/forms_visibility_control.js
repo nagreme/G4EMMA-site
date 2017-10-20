@@ -12,8 +12,20 @@
 // radio buttons toggle
 $(document).ready(function(){
 
-  var optional_forms = $(".beam_emittance_form, .central_traj_form");
-  optional_forms.hide();
+  // These two vars list the optional forms and what toggles their visibility
+  // The order is important! A toggle must have the same index as its form
+  var toggles_arr = ["#id_specify_beam_emittance", "#id_specify_central_trajectory"];
+  var optional_forms_arr = [".beam_emittance_form", ".central_traj_form"];
+
+  // Then show optional forms that are already toggled
+  for (i = 0; i < toggles_arr.length; i++)
+  {
+    if (!parseInt($(toggles_arr[i]).val()))
+    {
+      $(optional_forms_arr[i]).hide();
+    }
+  }
+
 
   // toggle beam emittance form
   $("#id_specify_beam_emittance").change(function(){
