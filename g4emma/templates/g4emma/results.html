@@ -1,0 +1,14 @@
+{% extends "g4emma/base.html" %}
+
+<!-- Title -->
+{% block title %}{{ block.super }} - Results{% endblock %}
+
+<!-- Navigation
+    This page won't do anything to the navbar since it could display results for anything and we don't want a link to it -->
+
+<!-- Main Content -->
+{% block main_content %}
+<div class="results">
+  {{ results }}
+</div>
+{% endblock %}

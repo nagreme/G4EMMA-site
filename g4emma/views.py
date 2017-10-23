@@ -1,5 +1,5 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import g4emma.forms as G4Forms
 import subprocess as sp
 import g4emma.g4emma_input_setup as G4ISetup
@@ -16,7 +16,14 @@ def manual(request):
 def simulation(request):
     results = "" #if there has been no post request, there are no results
 
-    forms_list = [G4Forms.BeamForm, G4Forms.BeamEmittanceChoiceForm, G4Forms.BeamEmittanceForm, G4Forms.CentralTrajectoryChoiceForm, G4Forms.CentralTrajectoryForm]
+    forms_list = [G4Forms.BeamForm,
+    # G4Forms.BeamEmittanceChoiceForm,
+    # G4Forms.BeamEmittanceForm,
+    # G4Forms.CentralTrajectoryChoiceForm,
+    # G4Forms.CentralTrajectoryForm,
+    # G4Forms.ReactionChoiceForm,
+    # G4Forms.ReactionForm,
+    G4Forms.TargetChoiceForm]
 
     if request.method == 'POST':
         forms_are_all_valid = True
@@ -70,6 +77,12 @@ def simulation(request):
 
             results = command + str(sim_params)
 
+            # Store the results in a session so that the page we redirect to can access them
+            request.session['results'] = results
+
+            # I could use a single return statement but I feel it would be a bit much here
+            return redirect('results')
+
     else:
         for index, input_form in enumerate(forms_list):
             #setup the forms
@@ -80,3 +93,6 @@ def simulation(request):
 
 def tools(request):
     return render(request, 'g4emma/tools.html')
+
+def results(request):
+    return render(request, 'g4emma/results.html', {'results':request.session.pop('results', {})})
