@@ -165,6 +165,10 @@ main {
   padding-left: 50px;
 }
 
+form ul {
+  list-style: none;
+}
+
 
 /*-----------------------------------------
 * FOOTER STYLES
