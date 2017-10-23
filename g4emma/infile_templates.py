@@ -34,7 +34,7 @@ mwpc_datfile = ("{mwpc_inserted}\t# IN/OUT\n"
                 "{mwpc_pressure}\t# pressure (torr)\n"
                 "{mwpc_temp}\t# temperature (degrees Celsius)\n")
 
-reaction_datfile = ("# Two-body reaction: 1 + 2 --> 3 + 4"
+reaction_datfile = ("# Two-body reaction: 1 + 2 --> 3 + 4\n"
                     "{rxn_z1_beam}\t# Z1 beam\n"
                     "{rxn_a1}\t# A1\n"
                     "{rxn_z2_target}\t# Z2 target\n"
