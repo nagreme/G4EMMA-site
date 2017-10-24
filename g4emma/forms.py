@@ -168,11 +168,11 @@ class TargetElementsForm(forms.Form):
 
 class Degrader1ChoiceForm(forms.Form):
     name = "degrader1_choice_form"
-    DEGRADER1_CHOICES = (
+    DEGRADER_CHOICES = (
         (0, "No"),
         (1, "Yes")
     )
-    degrader1_inserted = forms.ChoiceField(required=True, label="Degrader 1", choices=DEGRADER1_CHOICES, initial=0)
+    degrader1_inserted = forms.ChoiceField(required=True, label="Degrader 1", choices=DEGRADER_CHOICES, initial=0)
 
 class Degrader1Form(forms.Form):
     name = "degrader1_form"
@@ -195,3 +195,34 @@ class Degrader1ElementsForm(forms.Form):
     degrader1_elem_3 = ElementField(required=False, label="Element 3")
     degrader1_elem_4 = ElementField(required=False, label="Element 4")
     degrader1_elem_5 = ElementField(required=False, label="Element 5")
+
+
+class Degrader2ChoiceForm(forms.Form):
+    name = "degrader2_choice_form"
+    DEGRADER_CHOICES = (
+        (0, "No"),
+        (1, "Yes")
+    )
+    degrader2_inserted = forms.ChoiceField(required=True, label="Degrader 2", choices=DEGRADER_CHOICES, initial=0)
+
+class Degrader2Form(forms.Form):
+    name = "degrader2_form"
+    degrader2_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)")
+    degrader2_density = forms.DecimalField(required=False, label="\u03c1", help_text="g/cm³ (degrader 2 density)")
+
+class Degrader2ElementsForm(forms.Form):
+    name = "degrader2_elements_form"
+    NUM_ELEM_CHOICES = (
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (5, "5")
+    )
+    degrader2_num_elems = forms.ChoiceField(required=True, label="Number of elements", choices=NUM_ELEM_CHOICES, initial=1)
+    elem_guideline = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Element #: Z = proton number, M = molar mass (g/mol), \u03b7 = weight ratio (%)', label_suffix="")
+    degrader2_elem_1 = ElementField(required=False, label="Element 1")
+    degrader2_elem_2 = ElementField(required=False, label="Element 2")
+    degrader2_elem_3 = ElementField(required=False, label="Element 3")
+    degrader2_elem_4 = ElementField(required=False, label="Element 4")
+    degrader2_elem_5 = ElementField(required=False, label="Element 5")

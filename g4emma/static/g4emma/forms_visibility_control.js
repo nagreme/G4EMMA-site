@@ -36,7 +36,9 @@ $(document).ready(function(){
     "#id_target_inserted",
     "#id_target_inserted",
     "#id_degrader1_inserted",
-    "#id_degrader1_inserted"
+    "#id_degrader1_inserted",
+    "#id_degrader2_inserted",
+    "#id_degrader2_inserted"
   ];
 
   var optional_forms_arr = [
@@ -46,7 +48,9 @@ $(document).ready(function(){
     ".target_form",
     ".target_elements_form",
     ".degrader1_form",
-    ".degrader1_elements_form"
+    ".degrader1_elements_form",
+    ".degrader2_form",
+    ".degrader2_elements_form"
   ];
 
   // Then show optional forms that are already toggled
@@ -196,4 +200,60 @@ $(document).ready(function(){
   })
 
 
-});
+  // toggle degrader2 forms
+  $("#id_degrader2_inserted").change(function(){
+    $(".degrader2_form").toggle();
+    $(".degrader2_elements_form").toggle();
+    $(".degrader2_form input").val("");
+    $(".degrader2_elements_form input").val("");
+    $("#id_degrader2_num_elems").trigger("change");
+  })
+
+  $("#id_degrader2_num_elems").change(function(){
+    //retrieve the new selected number of elements
+    var num_elems = parseInt($("#id_degrader2_num_elems").val())
+
+    //hide and clear what we want
+    switch(num_elems)
+    {
+      case 1:
+        $(":regex(id,id_degrader2_elem_2_[0-9])").hide();
+        $(":regex(id,id_degrader2_elem_2_[0-9])").val("");
+        $("label[for='id_degrader2_elem_2_0']").hide();
+      case 2:
+        $(":regex(id,id_degrader2_elem_3_[0-9])").hide();
+        $(":regex(id,id_degrader2_elem_3_[0-9])").val("");
+        $("label[for='id_degrader2_elem_3_0']").hide();
+      case 3:
+        $(":regex(id,id_degrader2_elem_4_[0-9])").hide();
+        $(":regex(id,id_degrader2_elem_4_[0-9])").val("");
+        $("label[for='id_degrader2_elem_4_0']").hide();
+      case 4:
+        $(":regex(id,id_degrader2_elem_5_[0-9])").hide();
+        $(":regex(id,id_degrader2_elem_5_[0-9])").val("");
+        $("label[for='id_degrader2_elem_5_0']").hide();
+    }//switch (hide/clear)
+
+    //then show the ones we want
+    switch(num_elems)
+    {
+      case 5:
+        $(":regex(id,id_degrader2_elem_5_[0-9])").show();
+        $("label[for='id_degrader2_elem_5_0']").show();
+      case 4:
+        $(":regex(id,id_degrader2_elem_4_[0-9])").show();
+        $("label[for='id_degrader2_elem_4_0']").show();
+      case 3:
+        $(":regex(id,id_degrader2_elem_3_[0-9])").show();
+        $("label[for='id_degrader2_elem_3_0']").show();
+      case 2:
+        $(":regex(id,id_degrader2_elem_2_[0-9])").show();
+        $("label[for='id_degrader2_elem_2_0']").show();
+      case 1:
+        $(":regex(id,id_degrader2_elem_1_[0-9])").show();
+        $("label[for='id_degrader2_elem_1_0']").show();
+    }//switch (show)
+  })
+
+
+}); //doc ready

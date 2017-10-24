@@ -26,9 +26,13 @@ def simulation(request):
     # G4Forms.TargetChoiceForm,
     # G4Forms.TargetForm,
     # G4Forms.TargetElementsForm,
-    G4Forms.Degrader1ChoiceForm,
-    G4Forms.Degrader1Form,
-    G4Forms.Degrader1ElementsForm]
+    # G4Forms.Degrader1ChoiceForm,
+    # G4Forms.Degrader1Form,
+    # G4Forms.Degrader1ElementsForm,
+    G4Forms.Degrader2ChoiceForm,
+    G4Forms.Degrader2Form,
+    G4Forms.Degrader2ElementsForm
+    ]
 
     if request.method == 'POST':
         forms_are_all_valid = True
