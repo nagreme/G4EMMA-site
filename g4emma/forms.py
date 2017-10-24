@@ -137,8 +137,8 @@ class ReactionForm(forms.Form):
 class TargetChoiceForm(forms.Form):
     name = "target_choice_form"
     TARGET_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     target_inserted = forms.ChoiceField(required=True, label="Target", choices=TARGET_CHOICES, initial=0)
 
@@ -169,8 +169,8 @@ class TargetElementsForm(forms.Form):
 class Degrader1ChoiceForm(forms.Form):
     name = "degrader1_choice_form"
     DEGRADER_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     degrader1_inserted = forms.ChoiceField(required=True, label="Degrader 1", choices=DEGRADER_CHOICES, initial=0)
 
@@ -200,8 +200,8 @@ class Degrader1ElementsForm(forms.Form):
 class Degrader2ChoiceForm(forms.Form):
     name = "degrader2_choice_form"
     DEGRADER_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     degrader2_inserted = forms.ChoiceField(required=True, label="Degrader 2", choices=DEGRADER_CHOICES, initial=0)
 
@@ -231,8 +231,8 @@ class Degrader2ElementsForm(forms.Form):
 class Slit1ChoiceForm(forms.Form):
     name = "slit_1_choice_form"
     SLIT_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     slit1_inserted = forms.ChoiceField(required=True, label="Slit 1", choices=SLIT_CHOICES, initial=0)
 
@@ -244,8 +244,8 @@ class Slit1Form(forms.Form):
 class Slit2ChoiceForm(forms.Form):
     name = "slit_2_choice_form"
     SLIT_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     slit2_inserted = forms.ChoiceField(required=True, label="Slit 2", choices=SLIT_CHOICES, initial=0)
 
@@ -257,8 +257,8 @@ class Slit2Form(forms.Form):
 class Slit3ChoiceForm(forms.Form):
     name = "slit_3_choice_form"
     SLIT_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     slit3_inserted = forms.ChoiceField(required=True, label="Slit 3", choices=SLIT_CHOICES, initial=0)
 
@@ -270,8 +270,8 @@ class Slit3Form(forms.Form):
 class Slit4ChoiceForm(forms.Form):
     name = "slit_4_choice_form"
     SLIT_CHOICES = (
-        (0, "No"),
-        (1, "Yes")
+        (0, "Out"),
+        (1, "In")
     )
     slit4_inserted = forms.ChoiceField(required=True, label="Slit 4", choices=SLIT_CHOICES, initial=0)
 
@@ -280,7 +280,18 @@ class Slit4Form(forms.Form):
     slit_4_inserted = forms.DecimalField(required=False, label="Aperture (+/-)", help_text="mm")
 
 
+class MWPCChoiceForm(forms.Form):
+    name = "mwpc_choice_form"
+    MWPC_CHOICES = (
+        (0, "Out"),
+        (1, "In")
+    )
+    mwpc_inserted = forms.ChoiceField(required=True, label="Multiwire Proportional Counter (MWPC)", choices=MWPC_CHOICES, initial=0)
 
+class MWPCForm(forms.Form):
+    name = "mwpc_form"
+    mwpc_pressure = forms.DecimalField(required=False, label="p", help_text="Torr")
+    mwpc_temp = forms.DecimalField(required=False, label="T", help_text="\u00B0C")
 
 
 

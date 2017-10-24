@@ -42,7 +42,8 @@ $(document).ready(function(){
     "#id_slit1_inserted",
     "#id_slit2_inserted",
     "#id_slit3_inserted",
-    "#id_slit4_inserted"
+    "#id_slit4_inserted",
+    "#id_mwpc_inserted"
   ];
 
   var optional_forms_arr = [
@@ -58,7 +59,8 @@ $(document).ready(function(){
     ".slit_1_form",
     ".slit_2_form",
     ".slit_3_form",
-    ".slit_4_form"
+    ".slit_4_form",
+    ".mwpc_form"
   ];
 
   // Then show optional forms that are already toggled
@@ -287,6 +289,15 @@ $(document).ready(function(){
     $(".slit_4_form").toggle();
     $(".slit_4_form input").val("");
   });
+
+
+  // toggle mwpc form
+  $("#id_mwpc_inserted").change(function(){
+    $(".mwpc_form").toggle();
+    $(".mwpc_form input").val("");
+  });
+
+
 
 
 }); //doc ready

@@ -32,14 +32,16 @@ def simulation(request):
     # G4Forms.Degrader2ChoiceForm,
     # G4Forms.Degrader2Form,
     # G4Forms.Degrader2ElementsForm,
-    G4Forms.Slit1ChoiceForm,
-    G4Forms.Slit1Form,
-    G4Forms.Slit2ChoiceForm,
-    G4Forms.Slit2Form,
-    G4Forms.Slit3ChoiceForm,
-    G4Forms.Slit3Form,
-    G4Forms.Slit4ChoiceForm,
-    G4Forms.Slit4Form
+    # G4Forms.Slit1ChoiceForm,
+    # G4Forms.Slit1Form,
+    # G4Forms.Slit2ChoiceForm,
+    # G4Forms.Slit2Form,
+    # G4Forms.Slit3ChoiceForm,
+    # G4Forms.Slit3Form,
+    # G4Forms.Slit4ChoiceForm,
+    # G4Forms.Slit4Form,
+    G4Forms.MWPCChoiceForm,
+    G4Forms.MWPCForm
     ]
 
     if request.method == 'POST':
