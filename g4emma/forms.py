@@ -151,7 +151,6 @@ class TargetForm(forms.Form):
 class TargetElementsForm(forms.Form):
     name = "target_elements_form"
     NUM_ELEM_CHOICES = (
-        (0, "Please select"),
         (1, "1"),
         (2, "2"),
         (3, "3"),
@@ -161,3 +160,7 @@ class TargetElementsForm(forms.Form):
     target_num_elems = forms.ChoiceField(required=True, label="Number of elements", choices=NUM_ELEM_CHOICES, initial=1)
     elem_guideline = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Element #: Z = proton number, M = molar mass (g/mol), \u03b7 = weight ratio (%)', label_suffix="")
     target_elem_1 = ElementField(required=False, label="Element 1")
+    target_elem_2 = ElementField(required=False, label="Element 2")
+    target_elem_3 = ElementField(required=False, label="Element 3")
+    target_elem_4 = ElementField(required=False, label="Element 4")
+    target_elem_5 = ElementField(required=False, label="Element 5")
