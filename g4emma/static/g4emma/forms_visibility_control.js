@@ -38,7 +38,11 @@ $(document).ready(function(){
     "#id_degrader1_inserted",
     "#id_degrader1_inserted",
     "#id_degrader2_inserted",
-    "#id_degrader2_inserted"
+    "#id_degrader2_inserted",
+    "#id_slit1_inserted",
+    "#id_slit2_inserted",
+    "#id_slit3_inserted",
+    "#id_slit4_inserted"
   ];
 
   var optional_forms_arr = [
@@ -50,7 +54,11 @@ $(document).ready(function(){
     ".degrader1_form",
     ".degrader1_elements_form",
     ".degrader2_form",
-    ".degrader2_elements_form"
+    ".degrader2_elements_form",
+    ".slit_1_form",
+    ".slit_2_form",
+    ".slit_3_form",
+    ".slit_4_form"
   ];
 
   // Then show optional forms that are already toggled
@@ -254,6 +262,31 @@ $(document).ready(function(){
         $("label[for='id_degrader2_elem_1_0']").show();
     }//switch (show)
   })
+
+
+  // toggle slit 1 form
+  $("#id_slit1_inserted").change(function(){
+    $(".slit_1_form").toggle();
+    $(".slit_1_form input").val("");
+  });
+
+  // toggle slit 2 form
+  $("#id_slit2_inserted").change(function(){
+    $(".slit_2_form").toggle();
+    $(".slit_2_form input").val("");
+  });
+
+  // toggle slit 3 form
+  $("#id_slit3_inserted").change(function(){
+    $(".slit_3_form").toggle();
+    $(".slit_3_form input").val("");
+  });
+
+  // toggle slit 4 form
+  $("#id_slit4_inserted").change(function(){
+    $(".slit_4_form").toggle();
+    $(".slit_4_form input").val("");
+  });
 
 
 }); //doc ready

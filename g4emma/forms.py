@@ -226,3 +226,78 @@ class Degrader2ElementsForm(forms.Form):
     degrader2_elem_3 = ElementField(required=False, label="Element 3")
     degrader2_elem_4 = ElementField(required=False, label="Element 4")
     degrader2_elem_5 = ElementField(required=False, label="Element 5")
+
+
+class Slit1ChoiceForm(forms.Form):
+    name = "slit_1_choice_form"
+    SLIT_CHOICES = (
+        (0, "No"),
+        (1, "Yes")
+    )
+    slit1_inserted = forms.ChoiceField(required=True, label="Slit 1", choices=SLIT_CHOICES, initial=0)
+
+class Slit1Form(forms.Form):
+    name = "slit_1_form"
+    slit_1_inserted = forms.DecimalField(required=False, label="Aperture (+/-)", help_text="mm")
+
+
+class Slit2ChoiceForm(forms.Form):
+    name = "slit_2_choice_form"
+    SLIT_CHOICES = (
+        (0, "No"),
+        (1, "Yes")
+    )
+    slit2_inserted = forms.ChoiceField(required=True, label="Slit 2", choices=SLIT_CHOICES, initial=0)
+
+class Slit2Form(forms.Form):
+    name = "slit_2_form"
+    slit_2_inserted = forms.DecimalField(required=False, label="Aperture (+/-)", help_text="mm")
+
+
+class Slit3ChoiceForm(forms.Form):
+    name = "slit_3_choice_form"
+    SLIT_CHOICES = (
+        (0, "No"),
+        (1, "Yes")
+    )
+    slit3_inserted = forms.ChoiceField(required=True, label="Slit 3", choices=SLIT_CHOICES, initial=0)
+
+class Slit3Form(forms.Form):
+    name = "slit_3_form"
+    slit_3_inserted = forms.DecimalField(required=False, label="Aperture (+/-)", help_text="mm")
+
+
+class Slit4ChoiceForm(forms.Form):
+    name = "slit_4_choice_form"
+    SLIT_CHOICES = (
+        (0, "No"),
+        (1, "Yes")
+    )
+    slit4_inserted = forms.ChoiceField(required=True, label="Slit 4", choices=SLIT_CHOICES, initial=0)
+
+class Slit4Form(forms.Form):
+    name = "slit_4_form"
+    slit_4_inserted = forms.DecimalField(required=False, label="Aperture (+/-)", help_text="mm")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
