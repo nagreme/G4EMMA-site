@@ -164,3 +164,34 @@ class TargetElementsForm(forms.Form):
     target_elem_3 = ElementField(required=False, label="Element 3")
     target_elem_4 = ElementField(required=False, label="Element 4")
     target_elem_5 = ElementField(required=False, label="Element 5")
+
+
+class Degrader1ChoiceForm(forms.Form):
+    name = "degrader1_choice_form"
+    DEGRADER1_CHOICES = (
+        (0, "No"),
+        (1, "Yes")
+    )
+    degrader1_inserted = forms.ChoiceField(required=True, label="Degrader 1", choices=DEGRADER1_CHOICES, initial=0)
+
+class Degrader1Form(forms.Form):
+    name = "degrader1_form"
+    degrader1_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)")
+    degrader1_density = forms.DecimalField(required=False, label="\u03c1", help_text="g/cm³ (degrader 1 density)")
+
+class Degrader1ElementsForm(forms.Form):
+    name = "degrader1_elements_form"
+    NUM_ELEM_CHOICES = (
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (5, "5")
+    )
+    degrader1_num_elems = forms.ChoiceField(required=True, label="Number of elements", choices=NUM_ELEM_CHOICES, initial=1)
+    elem_guideline = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Element #: Z = proton number, M = molar mass (g/mol), \u03b7 = weight ratio (%)', label_suffix="")
+    degrader1_elem_1 = ElementField(required=False, label="Element 1")
+    degrader1_elem_2 = ElementField(required=False, label="Element 2")
+    degrader1_elem_3 = ElementField(required=False, label="Element 3")
+    degrader1_elem_4 = ElementField(required=False, label="Element 4")
+    degrader1_elem_5 = ElementField(required=False, label="Element 5")
