@@ -43,7 +43,8 @@ $(document).ready(function(){
     "#id_slit2_inserted",
     "#id_slit3_inserted",
     "#id_slit4_inserted",
-    "#id_mwpc_inserted"
+    "#id_mwpc_inserted",
+    "#id_ion_chamber_inserted"
   ];
 
   var optional_forms_arr = [
@@ -60,7 +61,8 @@ $(document).ready(function(){
     ".slit_2_form",
     ".slit_3_form",
     ".slit_4_form",
-    ".mwpc_form"
+    ".mwpc_form",
+    ".ion_chamber_form"
   ];
 
   // Then show optional forms that are already toggled
@@ -295,6 +297,13 @@ $(document).ready(function(){
   $("#id_mwpc_inserted").change(function(){
     $(".mwpc_form").toggle();
     $(".mwpc_form input").val("");
+  });
+
+
+  // toggle ion chamber form
+  $("#id_ion_chamber_inserted").change(function(){
+    $(".ion_chamber_form").toggle();
+    $(".ion_chamber_form input").val("");
   });
 
 
