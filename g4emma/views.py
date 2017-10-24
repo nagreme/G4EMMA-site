@@ -23,7 +23,9 @@ def simulation(request):
     # G4Forms.CentralTrajectoryForm,
     # G4Forms.ReactionChoiceForm,
     # G4Forms.ReactionForm,
-    G4Forms.TargetChoiceForm]
+    G4Forms.TargetChoiceForm,
+    G4Forms.TargetForm,
+    G4Forms.TargetElementsForm]
 
     if request.method == 'POST':
         forms_are_all_valid = True
