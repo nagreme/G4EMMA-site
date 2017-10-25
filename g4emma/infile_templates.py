@@ -78,4 +78,4 @@ targetDegraders_datfile = ("# TARGET\n"
                            "{degrader_2_num_elems}\t# number of elements\n"
                            "{degrader_2_elems}") #variable number of elements here
 
-element_format_str = "{elem_proton_num} {elem_molar_mass} {elem_weight_ratio}\t# element {elem_num}: Z, M (g/mol), mass fraction\n"
+element_format_str = "{elem_fields}\t# element {elem_num}: Z, M (g/mol), mass fraction\n"

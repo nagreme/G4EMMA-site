@@ -52,7 +52,7 @@ class ElementField(forms.MultiValueField):
 
     def compress(self, data_list):
         # Documentation says we can assume that data is valid
-        return " ".join(str(x) for x in data_list)
+        return ' '.join(str(x) for x in data_list)
 
 
 #===========================

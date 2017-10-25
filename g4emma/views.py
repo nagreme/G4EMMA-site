@@ -64,8 +64,9 @@ def simulation(request):
                 #agglomerate all the forms' input into one dictionary
                 sim_params.update(input_form.cleaned_data)
 
+            # There is no string input so we're good
             # Properly escape/quote strings (the numbers are restrained by django)
-            G4ISetup.sanitize_input_dict(sim_params)
+            # G4ISetup.sanitize_input_dict(sim_params)
 
             # Setup a user directory, save its path
             # user_dirs_path = "/data/emma" #location in VM
