@@ -10,6 +10,7 @@
 // });
 
 //taken from online, adds regex to jquery selectors, super useful
+// see https://j11y.io/javascript/regex-selector-for-jquery/
 jQuery.expr[':'].regex = function(elem, index, match) {
     var matchParams = match[3].split(','),
         validLabels = /^(data|css):/,

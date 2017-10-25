@@ -14,6 +14,7 @@ class HeaderWidget(forms.widgets.Widget):
     def render(self, name, value, attrs=None):
         attrs.update(self.attrs)
         return format_html('<div{0}>{1}</div>', flatatt(attrs), value)
+    #see https://stackoverflow.com/questions/635583/inserting-a-heading-into-a-django-form
 
 
 class ElementWidget(forms.MultiWidget):
