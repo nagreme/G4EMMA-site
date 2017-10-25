@@ -144,7 +144,7 @@ def merge_with_defaults(form_dict):
                             target_elem_3 = "",
                             target_elem_4 = "",
                             target_elem_5 = "",
-                            degreder_1_inserted = "OUT",
+                            degrader_1_inserted = "OUT",
                             degrader_1_thickness = 0,
                             degrader_1_density = 0,
                             degrader_1_num_elems = 0,
