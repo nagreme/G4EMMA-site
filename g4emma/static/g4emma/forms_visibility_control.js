@@ -1,13 +1,4 @@
-// var conditional_fields = $("div.beam_emittance_form", "div.central_traj_form");
-// conditional_fields.hide();
-//
-// $(".shipping").change(function() {
-//     if ($(this).prop('checked') === 'checked') {
-//         conditional_fields.show();
-//     } else {
-//         conditional_fields.hide();
-//     }
-// });
+
 
 //taken from online, adds regex to jquery selectors, super useful
 // see https://j11y.io/javascript/regex-selector-for-jquery/
@@ -306,6 +297,13 @@ $(document).ready(function(){
     $(".ion_chamber_form").toggle();
     $(".ion_chamber_form input").val("");
   });
+
+
+  // display a message to the user upon submit to let them know the results will take a while
+  $("input[type='submit']").click(function (){
+    $("#submit-msg").text("You will be redirected to the results once the simulation is complete.This may take a while. Please do not close or refresh the page in the meantime.")
+  })
+
 
 
 

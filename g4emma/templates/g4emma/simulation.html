@@ -16,6 +16,8 @@
 <!-- Main Content -->
 {% block main_content %}
 
+  <p id="submit-msg"></p>
+
   {% if form.errors %}
     <p style="color: red;">
       Please correct the error{{ form.errors|pluralize }} below.
@@ -36,7 +38,7 @@
   </form>
 
 
-  {{ results }}
+
 
 
 {% endblock %}
