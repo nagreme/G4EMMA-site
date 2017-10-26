@@ -64,9 +64,9 @@ def simulation(request):
                 #agglomerate all the forms' input into one dictionary
                 sim_params.update(input_form.cleaned_data)
 
-            # There is no string input so we're good
             # Properly escape/quote strings (the numbers are restrained by django)
             # G4ISetup.sanitize_input_dict(sim_params)
+            # There is no string input so we're good
 
             # Setup a user directory, save its path
             # user_dirs_path = "/data/emma" #location in VM
@@ -92,12 +92,12 @@ def simulation(request):
             # cleanup userdir?
 
             # Set results to a rendering of the sims output? or put the data of the output files there somehow
-            command = ". G4EMMA_wrapper.sh {num_events} {beam_proton_num} {beam_nucleon_num} {beam_charge_state} {beam_kinetic_e}".format(**sim_params)
+            command = " ".join((". G4EMMA_wrapper.sh", "~/Sites/G4EMMA", userdir+ "/")) #this last slash is important!!!
 
-            # results = sp.check_output(". G4EMMA_wrapper.sh", shell=True, universal_newlines=True)
+            results = sp.check_output(command, shell=True, universal_newlines=True)
             # results = str(results) + str(sim_params)
 
-            results = command + str(sim_params)
+            # results = command + str(sim_params)
 
             # Store the results in a session so that the page we redirect to can access them
             request.session['results'] = results
