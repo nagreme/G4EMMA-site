@@ -57,7 +57,7 @@ def setup_unique_userdir(user_dirs_path):
     unique_part = sp.check_output("ps | grep ps", shell=True)
 
     #the slicing strips off extra quotes and a char: b'str_content'
-    matched_part = re.match(".*? ([0-9]*) .*", str(unique_part))
+    matched_part = re.match("b' *([0-9]+) .*'", str(unique_part))
 
     # Build full path
     userdir = "{}/UserDir_{}".format(user_dirs_path, matched_part.group(1))
@@ -69,8 +69,6 @@ def setup_unique_userdir(user_dirs_path):
     else:
         userdir = None
         raise error
-
-    # The subdirectories will be created when and where needed (where input files are written and in the wrapper script)
 
     return userdir
 
@@ -170,6 +168,7 @@ def merge_with_defaults(form_dict):
 
         default_vals.update(form_dict)
 
+
         # We need to apply a correction to change some 0/1 to OUT/IN
         fields_to_correct = ["ion_chamber_inserted", "mwpc_inserted", "target_inserted", "degrader_1_inserted", "degrader_2_inserted"]
 
@@ -195,16 +194,19 @@ def merge_with_defaults(form_dict):
 #---------------------------------------------------
 def write_input_files(userdir, form_dict):
     # Make the input files directory
-    infile_dir_name = "/User_Input"
+    infile_dir_name = "/UserInput"
     if Path(userdir).exists():
         infile_dir_path = userdir + infile_dir_name
         Path(infile_dir_path).mkdir()
+        #also set up the results dir
+        outfile_dir_path = userdir + "/Results"
+        Path(outfile_dir_path).mkdir()
 
         # input file names
         alphaSource_file = infile_dir_path + "/alphaSource.dat"
         beam_file = infile_dir_path + "/beam.dat"
         central_traj_file = infile_dir_path + "/centralTrajectory.dat"
-        ion_chamber_file = infile_dir_path + "/ionChamber.dat"
+        ion_chamber_file = infile_dir_path + "/IonChamber.dat"
         mwpc_file = infile_dir_path + "/mwpc.dat"
         rxn_file = infile_dir_path + "/reaction.dat"
         slits_file = infile_dir_path + "/slits.dat"
