@@ -4,7 +4,8 @@
 from django import forms
 from django.forms.utils import flatatt
 from django.utils.html import format_html
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
+
 
 #===========================
 # CUSTOM FIELDS AND WIDGETS
@@ -63,7 +64,7 @@ class ElementField(forms.MultiValueField):
 
 class BeamForm(forms.Form):
     name = "beam_form"
-    num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events)")
+    num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events)", validators=[MaxValueValidator(25000), MinValueValidator(1)])
     beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number)")
     beam_nucleon_num = forms.IntegerField(required=True, label="A", help_text="(Nucleon number)")
     beam_charge_state = forms.IntegerField(required=True, label="Q", help_text="(Charge state)")
