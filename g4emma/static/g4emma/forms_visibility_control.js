@@ -22,6 +22,7 @@ $(document).ready(function(){
   // These two vars list the optional forms and what toggles their visibility
   // The order is important! A toggle must have the same index as its form
   var toggles_arr = [
+    "#id_alpha_source_present",
     "#id_specify_beam_emittance",
     "#id_specify_central_trajectory",
     "#id_specify_reaction",
@@ -35,11 +36,11 @@ $(document).ready(function(){
     "#id_slit2_inserted",
     "#id_slit3_inserted",
     "#id_slit4_inserted",
-    "#id_mwpc_inserted",
     "#id_ion_chamber_inserted"
   ];
 
   var optional_forms_arr = [
+    ".alpha_source_form",
     ".beam_emittance_form",
     ".central_traj_form",
     ".reaction_form",
@@ -53,7 +54,6 @@ $(document).ready(function(){
     ".slit_2_form",
     ".slit_3_form",
     ".slit_4_form",
-    ".mwpc_form",
     ".ion_chamber_form"
   ];
 
@@ -65,6 +65,13 @@ $(document).ready(function(){
       $(optional_forms_arr[i]).hide();
     }
   }
+
+
+  // toggle alpha source form
+  $("#id_alpha_source_present").change(function(){
+    $(".alpha_source_form").toggle();
+    $(".alpha_source_form input").val("");
+  });
 
 
   // toggle beam emittance form
@@ -285,13 +292,6 @@ $(document).ready(function(){
   });
 
 
-  // toggle mwpc form
-  $("#id_mwpc_inserted").change(function(){
-    $(".mwpc_form").toggle();
-    $(".mwpc_form input").val("");
-  });
-
-
   // toggle ion chamber form
   $("#id_ion_chamber_inserted").change(function(){
     $(".ion_chamber_form").toggle();
@@ -301,7 +301,7 @@ $(document).ready(function(){
 
   // display a message to the user upon submit to let them know the results will take a while
   $("input[type='submit']").click(function (){
-    $("#submit-msg").text("You will be redirected to the results once the simulation is complete.This may take a while. Please do not close or refresh the page in the meantime.")
+    $("#submit-msg").text("You will be redirected to the results once the simulation is complete. This may take a while. Please do not close or refresh the page in the meantime.")
   })
 
 

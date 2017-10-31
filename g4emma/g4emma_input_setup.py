@@ -16,6 +16,9 @@ import subprocess as sp
 import re
 from pathlib import Path
 import g4emma.infile_templates as IFileTemplates
+from datetime import datetime, timedelta
+from django.conf import settings
+import shutil
 
 #===========================
 # FUCNTIONS
@@ -36,6 +39,23 @@ import g4emma.infile_templates as IFileTemplates
 #     else:
 #         # TODO: raise an error if not dictionary?
 #         print("error: sanitize_input_dict, not dict") # placeholder
+
+
+#---------------------------------------------------
+# cleanup_old_userdirs
+# PURPOSE: Get rid of all user directories that are
+#          older than 2 days
+#---------------------------------------------------
+def cleanup_old_userdirs():
+    p = Path(settings.MEDIA_ROOT) #where the userdirs are stored
+    two_days_ago = datetime.now() - timedelta(days=2)
+
+    # remove all user dirs older than 2 days
+    for child in p.iterdir():
+        if child.stat().st_ctime < two_days_ago.timestamp():
+            shutil.rmtree(str(child))
+
+
 
 
 #---------------------------------------------------
@@ -60,11 +80,12 @@ def setup_unique_userdir(user_dirs_path):
     matched_part = re.match("b' *([0-9]+) .*'", str(unique_part))
 
     # Build full path
-    userdir = "{}/UserDir_{}".format(user_dirs_path, matched_part.group(1))
+    userdir = "UserDir_{}".format(matched_part.group(1))
+    userdir_path = "{}{}".format(user_dirs_path, userdir)
 
     # Setup the directory
-    if not Path(userdir).exists():
-        Path(userdir).mkdir()
+    if not Path(userdir_path).exists():
+        Path(userdir_path).mkdir()
 
     else:
         userdir = None
@@ -114,9 +135,7 @@ def merge_with_defaults(form_dict):
                             ion_chamber_inserted = "OUT",
                             ion_chamber_pressure = 0,
                             ion_chamber_temp = 0,
-                            mwpc_inserted = "OUT",
-                            mwpc_pressure = 0,
-                            mwpc_temp = 0,
+                            mwpc_inserted = "IN", #this will always be in
                             rxn_z1_beam = form_dict['beam_proton_num'],
                             rxn_a1 = form_dict['beam_nucleon_num'],
                             rxn_z2_target = 0,
@@ -135,7 +154,7 @@ def merge_with_defaults(form_dict):
                             slit_3_inserted = "OUT",
                             slit_4_inserted = "OUT",
                             target_inserted = "OUT",
-                            target_thickness = 0,
+                            target_thickness = 0.000004, #this is around the min thickness for the simulation not to crash
                             target_z_pos = 0,
                             target_density = 0,
                             target_num_elems = 0,
@@ -169,14 +188,27 @@ def merge_with_defaults(form_dict):
         default_vals.update(form_dict)
 
 
-        # We need to apply a correction to change some 0/1 to OUT/IN
-        fields_to_correct = ["ion_chamber_inserted", "mwpc_inserted", "target_inserted", "degrader_1_inserted", "degrader_2_inserted"]
+        # We need to apply a correction to change some 0/1 to OUT/IN or NO/YES
+        fields_to_correct = ["ion_chamber_inserted", "target_inserted", "degrader_1_inserted", "degrader_2_inserted"]
 
         for field in fields_to_correct:
-            if(int(default_vals[field])):
+            if (int(default_vals[field])):
                 default_vals[field] = "IN"
             else:
                 default_vals[field] = "OUT"
+
+
+        num_elems_correction = ["target_", "degrader_1_", "degrader_2_"]
+
+        for item in num_elems_correction:
+            if default_vals[item+"inserted"] == "OUT":
+                default_vals[item+"num_elems"] = 0
+
+
+        if (int(default_vals["alpha_source_present"])):
+            default_vals["alpha_source_present"] = "YES"
+        else:
+            default_vals["alpha_source_present"] = "NO"
 
     else:
         #raise an error
@@ -200,6 +232,9 @@ def write_input_files(userdir, form_dict):
         Path(infile_dir_path).mkdir()
         #also set up the results dir
         outfile_dir_path = userdir + "/Results"
+        Path(outfile_dir_path).mkdir()
+        #also set up the beam sampling dir
+        outfile_dir_path = userdir + "/BeamSampling"
         Path(outfile_dir_path).mkdir()
 
         # input file names
@@ -248,10 +283,6 @@ def write_input_files(userdir, form_dict):
         f.write(IFileTemplates.slits_datfile.format(**form_dict))
         f.close()
 
-        # write target degraders
-        # f = open(target_degraders_file, 'w')
-        # f.write(IFileTemplates.targetDegraders_datfile.format(**form_dict))
-        # f.close()
         write_target_degraders(target_degraders_file, form_dict)
 
     else:
@@ -259,8 +290,6 @@ def write_input_files(userdir, form_dict):
         print("error: write_input_files, user dir path doesn't exist")
 
 
-
-#TODO: I might want to make a helper method to deal with writing target degraders datfile because it will be more complex
 
 #---------------------------------------------------
 # write_target_degraders

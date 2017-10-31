@@ -62,13 +62,29 @@ class ElementField(forms.MultiValueField):
 
 # Note: I use 0 and 1 instead of booleans to allow the JS to use them easily
 
+class AlphaSourceChoiceForm(forms.Form):
+    name = "alpha_source_choice_form"
+    ALPHA_SOURCE_CHOICES = (
+        (0, "No"), #the first value is the actual value in the code
+        (1, "Yes") # the second is the value the user sees
+    )
+    # toggle specify/zero
+    alpha_source_present = forms.ChoiceField(required=True, label="Alpha source", help_text="(Beam/reaction will be simulated with alpha source parameters)", choices = ALPHA_SOURCE_CHOICES, initial=0)
+
+class AlphaSourceForm(forms.Form):
+    name = "alpha_source_form"
+    alpha_source_kinetic_e = forms.DecimalField(required=False, label="\u03b1E", help_text="MeV (Alpha source kinetic energy)")
+    alpha_source_max_angle = forms.DecimalField(required=False, label="Max\u03b8", help_text="deg (Max angle alpha source)")
+
+
+
 class BeamForm(forms.Form):
     name = "beam_form"
-    num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events)", validators=[MaxValueValidator(25000), MinValueValidator(1)])
-    beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number)")
-    beam_nucleon_num = forms.IntegerField(required=True, label="A", help_text="(Nucleon number)")
-    beam_charge_state = forms.IntegerField(required=True, label="Q", help_text="(Charge state)")
-    beam_kinetic_e = forms.DecimalField(required=True, label="E", help_text="MeV (Kinetic energy)")
+    num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events) *required", validators=[MaxValueValidator(25000), MinValueValidator(1)])
+    beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number) *required")
+    beam_nucleon_num = forms.IntegerField(required=True, label="A", help_text="(Nucleon number) *required")
+    beam_charge_state = forms.IntegerField(required=True, label="Q", help_text="(Charge state) *required")
+    beam_kinetic_e = forms.DecimalField(required=True, label="E", help_text="MeV (Kinetic energy) *required")
 
 
 class BeamEmittanceChoiceForm(forms.Form):
@@ -119,8 +135,8 @@ class ReactionForm(forms.Form):
     header_line2 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Z1 = Z', label_suffix="")
     header_line3 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='A1 = A', label_suffix="")
 
-    rxn_z2_target = forms.IntegerField(required=False, label="Z2", help_text="(Z2 target)")
-    rxn_a2 = forms.IntegerField(required=False, label="A2", help_text="(A2 target)")
+    rxn_z2_target = forms.IntegerField(required=False, label="Z2", help_text="(Z2 target) *required")
+    rxn_a2 = forms.IntegerField(required=False, label="A2", help_text="(A2 target) *required")
     rxn_z3_recoil = forms.IntegerField(required=False, label="Z3", help_text="(Z3 recoil)")
     rxn_a3 = forms.IntegerField(required=False, label="A3", help_text="(A3 recoil)")
     rxn_z4_ejectile = forms.IntegerField(required=False, label="Z4", help_text="(Z4 ejectile)")
@@ -282,18 +298,11 @@ class Slit4Form(forms.Form):
     slit_4_inserted = forms.DecimalField(required=False, label="Aperture (+/-)", help_text="mm")
 
 
-class MWPCChoiceForm(forms.Form):
-    name = "mwpc_choice_form"
-    MWPC_CHOICES = (
-        (0, "Out"),
-        (1, "In")
-    )
-    mwpc_inserted = forms.ChoiceField(required=True, label="Multiwire Proportional Counter (MWPC)", choices=MWPC_CHOICES, initial=0)
-
 class MWPCForm(forms.Form):
     name = "mwpc_form"
-    mwpc_pressure = forms.DecimalField(required=False, label="p", help_text="Torr")
-    mwpc_temp = forms.DecimalField(required=False, label="T", help_text="\u00B0C")
+    mwpc_guide = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Multiwire Proportional Counter (MWPC)', label_suffix="")
+    mwpc_pressure = forms.DecimalField(required=True, label="p", help_text="Torr *required")
+    mwpc_temp = forms.DecimalField(required=True, label="T", help_text="\u00B0C *required")
 
 
 class IonChamberChoiceForm(forms.Form):
