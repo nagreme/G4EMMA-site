@@ -9,6 +9,14 @@
 <!-- Main Content -->
 {% block main_content %}
 <div class="results">
-  {{ results }}
+  <p>
+    <!-- {{ request.session.cmd}} -->
+    <!-- {{ request.session.result }} -->
+  </p>
+  <ul>
+    {% for outfile in request.session.outfiles %}
+      <li><a href="{{ request.session.outdir }}{{ outfile }}">{{ outfile }}</a></li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}
