@@ -38,13 +38,13 @@ class ElementField(forms.MultiValueField):
     def __init__(self, *args, **kwargs):
         fields = (
             forms.IntegerField(
-                error_messages={'incomplete': 'Enter a proton number.'}, label="Z", help_text=", "
+                error_messages={'incomplete': 'Enter a proton number.'}, label="Z", help_text=", ", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)]
             ),
             forms.DecimalField(
-                error_messages={'incomplete': 'Enter a molar mass.'}, label="M", help_text="g/mol, "
+                error_messages={'incomplete': 'Enter a molar mass.'}, label="M", help_text="g/mol, ", validators=[MinValueValidator(1)]
             ),
             forms.DecimalField(
-                error_messages={'incomplete': 'Enter a weight ratio.'}, label="\u03b7", help_text="%"
+                error_messages={'incomplete': 'Enter a weight ratio.'}, label="\u03b7", help_text="%", validators=[MaxValueValidator(100), MinValueValidator(0)]
             ),
         )
         super(ElementField, self).__init__(
@@ -60,6 +60,10 @@ class ElementField(forms.MultiValueField):
 # FORM CLASSES
 #===========================
 
+MAX_PROTON_NUM = 300
+MAX_NUCLEON_NUM = 500
+MIN_THICKNESS = 0.000004
+
 # Note: I use 0 and 1 instead of booleans to allow the JS to use them easily
 
 class AlphaSourceChoiceForm(forms.Form):
@@ -73,18 +77,18 @@ class AlphaSourceChoiceForm(forms.Form):
 
 class AlphaSourceForm(forms.Form):
     name = "alpha_source_form"
-    alpha_source_kinetic_e = forms.DecimalField(required=False, label="\u03b1E", help_text="MeV (Alpha source kinetic energy)")
-    alpha_source_max_angle = forms.DecimalField(required=False, label="Max\u03b8", help_text="deg (Max angle alpha source)")
+    alpha_source_kinetic_e = forms.DecimalField(required=False, label="\u03b1E", help_text="MeV (Alpha source kinetic energy)", validators=[MinValueValidator(0)])
+    alpha_source_max_angle = forms.DecimalField(required=False, label="Max\u03b8", help_text="deg (Max angle alpha source)", validators=[MaxValueValidator(360), MinValueValidator(0)])
 
 
 
 class BeamForm(forms.Form):
     name = "beam_form"
     num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events) *required", validators=[MaxValueValidator(25000), MinValueValidator(1)])
-    beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number) *required")
-    beam_nucleon_num = forms.IntegerField(required=True, label="A", help_text="(Nucleon number) *required")
+    beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number) *required", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    beam_nucleon_num = forms.IntegerField(required=True, label="A", help_text="(Nucleon number) *required", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
     beam_charge_state = forms.IntegerField(required=True, label="Q", help_text="(Charge state) *required")
-    beam_kinetic_e = forms.DecimalField(required=True, label="E", help_text="MeV (Kinetic energy) *required")
+    beam_kinetic_e = forms.DecimalField(required=True, label="E", help_text="MeV (Kinetic energy) *required", validators=[MinValueValidator(0)])
 
 
 class BeamEmittanceChoiceForm(forms.Form):
@@ -98,9 +102,9 @@ class BeamEmittanceChoiceForm(forms.Form):
 
 class BeamEmittanceForm(forms.Form):
     name = "beam_emittance_form"
-    beam_e_spread = forms.DecimalField(required=False, label="\u03b4E/E", help_text="% (FWHM, beam energy spread)")
-    beam_diameter = forms.DecimalField(required=False, label="d", help_text="mm (beam diameter)")
-    beam_trans_emittance = forms.DecimalField(required=False, label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)")
+    beam_e_spread = forms.DecimalField(required=False, label="\u03b4E/E", help_text="% (FWHM, beam energy spread)", initial=0.1 validators=[MinValueValidator(0)])
+    beam_diameter = forms.DecimalField(required=False, label="d", help_text="mm (beam diameter)", initial=1)
+    beam_trans_emittance = forms.DecimalField(required=False, label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)") # 0.3 mm pi mrad over beta default...
 
 
 class CentralTrajectoryChoiceForm(forms.Form):
@@ -115,10 +119,10 @@ class CentralTrajectoryChoiceForm(forms.Form):
 
 class CentralTrajectoryForm(forms.Form):
     name = "central_traj_form"
-    center_traj_proton_num = forms.IntegerField(required=False, label="ZC", help_text="(Proton number)")
-    center_traj_nucleon_num = forms.IntegerField(required=False, label="AC", help_text="(Nucleon number)")
+    center_traj_proton_num = forms.IntegerField(required=False, label="ZC", help_text="(Proton number)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    center_traj_nucleon_num = forms.IntegerField(required=False, label="AC", help_text="(Nucleon number)", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
     center_traj_charge_state = forms.IntegerField(required=False, label="QC", help_text="(Charge state)")
-    center_traj_kinetic_e = forms.DecimalField(required=False, label="EC", help_text="MeV (Kinetic Energy)")
+    center_traj_kinetic_e = forms.DecimalField(required=False, label="EC", help_text="MeV (Kinetic Energy)", validators=[MinValueValidator(0)])
 
 
 class ReactionChoiceForm(forms.Form):
@@ -135,12 +139,12 @@ class ReactionForm(forms.Form):
     header_line2 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Z1 = Z', label_suffix="")
     header_line3 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='A1 = A', label_suffix="")
 
-    rxn_z2_target = forms.IntegerField(required=False, label="Z2", help_text="(Z2 target) *required")
-    rxn_a2 = forms.IntegerField(required=False, label="A2", help_text="(A2 target) *required")
-    rxn_z3_recoil = forms.IntegerField(required=False, label="Z3", help_text="(Z3 recoil)")
-    rxn_a3 = forms.IntegerField(required=False, label="A3", help_text="(A3 recoil)")
-    rxn_z4_ejectile = forms.IntegerField(required=False, label="Z4", help_text="(Z4 ejectile)")
-    rxn_a4 = forms.IntegerField(required=False, label="A4", help_text="(A4 ejectile)")
+    rxn_z2_target = forms.IntegerField(required=False, label="Z2", help_text="(Z2 target) *required", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    rxn_a2 = forms.IntegerField(required=False, label="A2", help_text="(A2 target) *required", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
+    rxn_z3_recoil = forms.IntegerField(required=False, label="Z3", help_text="(Z3 recoil)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    rxn_a3 = forms.IntegerField(required=False, label="A3", help_text="(A3 recoil)", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
+    rxn_z4_ejectile = forms.IntegerField(required=False, label="Z4", help_text="(Z4 ejectile)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    rxn_a4 = forms.IntegerField(required=False, label="A4", help_text="(A4 ejectile)", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
 
     header_line4 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Properties of recoil (#3):')
     rxn_min_angle = forms.DecimalField(required=False, label="\u03b8cm,min", help_text="deg (min cm angle of ejectile)")
@@ -162,8 +166,8 @@ class TargetChoiceForm(forms.Form):
 
 class TargetForm(forms.Form):
     name = "target_form"
-    target_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)")
-    target_z_pos = forms.DecimalField(required=False, label="z-pos", help_text="cm (target z position offset)")
+    target_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)", validators=[MinValueValidator(MIN_THICKNESS)]) # this min value is determined by geant4 step size, this value is what I found to be close to the lower bound
+    # target_z_pos = forms.DecimalField(required=False, label="z-pos", help_text="cm (target z position offset)") # should not be changeable
     target_density = forms.DecimalField(required=False, label="\u03c1", help_text="g/cm³ (target density)")
 
 class TargetElementsForm(forms.Form):
@@ -194,7 +198,7 @@ class Degrader1ChoiceForm(forms.Form):
 
 class Degrader1Form(forms.Form):
     name = "degrader_1_form"
-    degrader_1_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)")
+    degrader_1_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)", validators=[MinValueValidator(MIN_THICKNESS)]) #this min thickness is similar across geant4 i hope
     degrader_1_density = forms.DecimalField(required=False, label="\u03c1", help_text="g/cm³ (degrader 1 density)")
 
 class Degrader1ElementsForm(forms.Form):
@@ -225,7 +229,7 @@ class Degrader2ChoiceForm(forms.Form):
 
 class Degrader2Form(forms.Form):
     name = "degrader_2_form"
-    degrader_2_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)")
+    degrader_2_thickness = forms.DecimalField(required=False, label="x0", help_text="\u03bcm (thickness)", validators=[MinValueValidator(MIN_THICKNESS)]) #this min thickness is similar across geant4 i hope
     degrader_2_density = forms.DecimalField(required=False, label="\u03c1", help_text="g/cm³ (degrader 2 density)")
 
 class Degrader2ElementsForm(forms.Form):
@@ -301,8 +305,8 @@ class Slit4Form(forms.Form):
 class MWPCForm(forms.Form):
     name = "mwpc_form"
     mwpc_guide = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Multiwire Proportional Counter (MWPC)', label_suffix="")
-    mwpc_pressure = forms.DecimalField(required=True, label="p", help_text="Torr *required")
-    mwpc_temp = forms.DecimalField(required=True, label="T", help_text="\u00B0C *required")
+    mwpc_pressure = forms.DecimalField(required=True, label="p", help_text="Torr *required", validators=[MinValueValidator(0)])
+    mwpc_temp = forms.DecimalField(required=True, label="T", help_text="\u00B0C *required", validators=[MinValueValidator(-273.15)])
 
 
 class IonChamberChoiceForm(forms.Form):
@@ -315,8 +319,8 @@ class IonChamberChoiceForm(forms.Form):
 
 class IonChamberForm(forms.Form):
     name = "ion_chamber_form"
-    ion_chamber_pressure = forms.DecimalField(required=False, label="p", help_text="Torr")
-    ion_chamber_temp = forms.DecimalField(required=False, label="T", help_text="\u00B0C")
+    ion_chamber_pressure = forms.DecimalField(required=False, label="p", help_text="Torr", validators=[MinValueValidator(0)])
+    ion_chamber_temp = forms.DecimalField(required=False, label="T", help_text="\u00B0C", validators=[MinValueValidator(-273.15)])
 
 
 
