@@ -102,7 +102,7 @@ class BeamEmittanceChoiceForm(forms.Form):
 
 class BeamEmittanceForm(forms.Form):
     name = "beam_emittance_form"
-    beam_e_spread = forms.DecimalField(required=False, label="\u03b4E/E", help_text="% (FWHM, beam energy spread)", initial=0.1 validators=[MinValueValidator(0)])
+    beam_e_spread = forms.DecimalField(required=False, label="\u03b4E/E", help_text="% (FWHM, beam energy spread)", initial=0.1, validators=[MinValueValidator(0)])
     beam_diameter = forms.DecimalField(required=False, label="d", help_text="mm (beam diameter)", initial=1)
     beam_trans_emittance = forms.DecimalField(required=False, label="\u03b3\u03b2\u03b5", help_text="\u03c0 mm mrad (Beam transverse emittance)") # 0.3 mm pi mrad over beta default...
 
