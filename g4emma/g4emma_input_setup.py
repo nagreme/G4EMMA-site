@@ -100,6 +100,8 @@ def setup_unique_userdir(user_dirs_path):
 #          values to get a complete set of input values
 #---------------------------------------------------
 def merge_with_defaults(form_dict):
+    MIN_THICKNESS = 0.000004
+
     # so we need a set of default values for most of the input fields
     # and then merge the two dictionaries with the user values overwriting the defaults
 
@@ -122,9 +124,9 @@ def merge_with_defaults(form_dict):
                             # beam_charge_state = 0, #required
                             # beam_kinetic_e = 0, #required
                             #--------
-                            beam_e_spread = 0,
-                            beam_diameter = 0 ,
-                            beam_trans_emittance = 0,
+                            beam_e_spread = 0.1,
+                            beam_diameter = 1,
+                            beam_trans_emittance = 0, #TODO check this (does 0.3 mm pi rad over beta have correct units?)
                             #--------
                             # These 4 should be the same as the beam params above by default
                             center_traj_proton_num = form_dict['beam_proton_num'],
@@ -154,8 +156,8 @@ def merge_with_defaults(form_dict):
                             slit_3_inserted = "OUT",
                             slit_4_inserted = "OUT",
                             target_inserted = "OUT",
-                            target_thickness = 0.000004, #this is around the min thickness for the simulation not to crash
-                            target_z_pos = 0,
+                            target_thickness = MIN_THICKNESS, #this is around the min thickness for the simulation not to crash
+                            target_z_pos = 0, # this should not be changed/constant
                             target_density = 0,
                             target_num_elems = 0,
                             target_elems = "",
@@ -165,7 +167,7 @@ def merge_with_defaults(form_dict):
                             target_elem_4 = "",
                             target_elem_5 = "",
                             degrader_1_inserted = "OUT",
-                            degrader_1_thickness = 0,
+                            degrader_1_thickness = MIN_THICKNESS,
                             degrader_1_density = 0,
                             degrader_1_num_elems = 0,
                             degrader_1_elems = "",
@@ -175,7 +177,7 @@ def merge_with_defaults(form_dict):
                             degrader_1_elem_4 = "",
                             degrader_1_elem_5 = "",
                             degrader_2_inserted = "OUT",
-                            degrader_2_thickness = 0,
+                            degrader_2_thickness = MIN_THICKNESS,
                             degrader_2_density = 0,
                             degrader_2_num_elems = 0,
                             degrader_2_elems = "",
@@ -197,18 +199,17 @@ def merge_with_defaults(form_dict):
             else:
                 default_vals[field] = "OUT"
 
+        if (int(default_vals["alpha_source_present"])):
+            default_vals["alpha_source_present"] = "YES"
+        else:
+            default_vals["alpha_source_present"] = "NO"
 
+        # Change # of elements to 0 if object is not present
         num_elems_correction = ["target_", "degrader_1_", "degrader_2_"]
 
         for item in num_elems_correction:
             if default_vals[item+"inserted"] == "OUT":
                 default_vals[item+"num_elems"] = 0
-
-
-        if (int(default_vals["alpha_source_present"])):
-            default_vals["alpha_source_present"] = "YES"
-        else:
-            default_vals["alpha_source_present"] = "NO"
 
     else:
         #raise an error
