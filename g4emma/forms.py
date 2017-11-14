@@ -139,11 +139,11 @@ class ReactionForm(forms.Form):
     header_line2 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Z1 = Z', label_suffix="")
     header_line3 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='A1 = A', label_suffix="")
 
-    rxn_z2_target = forms.IntegerField(required=False, label="Z2", help_text="(Z2 target) *required", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    rxn_z2_target = forms.IntegerField(required=False, label="Z2", help_text="(Z2 target) *required", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(0)])
     rxn_a2 = forms.IntegerField(required=False, label="A2", help_text="(A2 target) *required", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
-    rxn_z3_recoil = forms.IntegerField(required=False, label="Z3", help_text="(Z3 recoil)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    rxn_z3_recoil = forms.IntegerField(required=False, label="Z3", help_text="(Z3 recoil)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(0)])
     rxn_a3 = forms.IntegerField(required=False, label="A3", help_text="(A3 recoil)", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
-    rxn_z4_ejectile = forms.IntegerField(required=False, label="Z4", help_text="(Z4 ejectile)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    rxn_z4_ejectile = forms.IntegerField(required=False, label="Z4", help_text="(Z4 ejectile)", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(0)])
     rxn_a4 = forms.IntegerField(required=False, label="A4", help_text="(A4 ejectile)", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
 
     header_line4 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Properties of recoil (#3):')

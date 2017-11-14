@@ -70,7 +70,6 @@ def simulation(request):
             G4ISetup.cleanup_old_userdirs()
 
             # Setup a user directory, save its path
-            # user_dirs_path = "/data/emma" #location in VM
             user_dirs_path = settings.MEDIA_ROOT
             userdir = G4ISetup.setup_unique_userdir(user_dirs_path)
             userdir_path = "{}{}".format(user_dirs_path, userdir)
@@ -89,11 +88,29 @@ def simulation(request):
             # Set results to a rendering of the sims output? or put the data of the output files there somehow
             command = " ".join(("G4EMMA_wrapper.sh", "~/Sites/G4EMMA", userdir_path + "/"))  #this last slash is important!!!
 
-            results = sp.check_output(command, shell=True, universal_newlines=True)
-            # TESTING #TODO delete this
-            # userdir = "ref" #comment out once testing done
-            userdir_path = "{}{}".format(user_dirs_path, userdir)
-            # TESTING
+            try:
+                results = sp.check_output(command, shell=True, universal_newlines=True)
+            except:
+                # this will only be trigered if there is an error (not warnings)
+                # let user know that something went wrong (give some ideas of what it could be)
+                err_msg = ("An error occured when trying to run the simulation. Check that target and "
+                          "degrader thickness is greater than 1e-5, that elements chosen are possible, "
+                          "and that the magnetic and electric rigidities determined by central "
+                          "trajectory parameters do not exceed maximum allowed values.\n\n")
+                # read rigidities file and set form errors render form
+                with open(userdir_path+"/Results/rigidities.dat") as r_file:
+                    magnetic_rigidity = r_file.readline() #the first two lines are constant
+                    electric_rigidity = r_file.readline()
+                    # then will be 2-4 warning/error lines
+                    rigidity_err_msgs = r_file.read()
+
+                rigidity_err_msgs = ("Magnetic rigidity: {}\n"
+                                     "Electric rigidity: {}\n"
+                                     "{}").format(magnetic_rigidity,
+                                     electric_rigidity,
+                                     rigidity_err_msgs)
+                return render(request, 'g4emma/simulation.html',
+                {'forms_list':forms_list, 'general_err_msg':err_msg, 'rigidity_err_msg':rigidity_err_msgs})
 
 
             #get a list of the generated output files
