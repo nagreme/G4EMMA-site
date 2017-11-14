@@ -70,7 +70,6 @@ def simulation(request):
             G4ISetup.cleanup_old_userdirs()
 
             # Setup a user directory, save its path
-            # user_dirs_path = "/data/emma" #location in VM
             user_dirs_path = settings.MEDIA_ROOT
             userdir = G4ISetup.setup_unique_userdir(user_dirs_path)
             userdir_path = "{}{}".format(user_dirs_path, userdir)
@@ -89,8 +88,6 @@ def simulation(request):
             # Set results to a rendering of the sims output? or put the data of the output files there somehow
             command = " ".join(("G4EMMA_wrapper.sh", "~/Sites/G4EMMA", userdir_path + "/"))  #this last slash is important!!!
 
-            #TODO: add try-except block around command to catch those nasty crashes (exit status 134)
-            # (especially now that I'm purposefully causing some to catch rigidity issues)
             try:
                 results = sp.check_output(command, shell=True, universal_newlines=True)
             except:
