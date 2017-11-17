@@ -80,7 +80,8 @@ def setup_unique_userdir(user_dirs_path):
     matched_part = re.match("b' *([0-9]+) .*'", str(unique_part))
 
     # Build full path
-    userdir = "UserDir_{}".format(matched_part.group(1))
+    # (left pad zeroes to width 5)
+    userdir = "UserDir_{:0>5}".format(matched_part.group(1))
     userdir_path = "{}{}".format(user_dirs_path, userdir)
 
     # Setup the directory
