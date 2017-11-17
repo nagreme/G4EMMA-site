@@ -121,7 +121,7 @@ def simulation(request):
 
             # Store the results in a session so that the page we redirect to can access them
             request.session['cmd'] = command
-            request.session['result'] = results
+            request.session['results'] = results
             request.session['outdir'] = "/media/"+userdir+"/Results/"
             request.session['outfiles'] = outfiles_list
 
@@ -140,4 +140,8 @@ def tools(request):
     return render(request, 'g4emma/tools.html')
 
 def results(request):
-    return render(request, 'g4emma/results.html', {'results':request.session.pop('results', {})})
+    return render(request, 'g4emma/results.html',
+        {'results':request.session.pop('results', {}),
+         'outfiles':request.session.pop('outfiles', {}),
+         'outdir':request.session.pop('outdir', "#"),
+          'cmd':request.session.pop('cmd', "command not generated")})
