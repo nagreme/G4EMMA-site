@@ -4,6 +4,7 @@ import g4emma.forms as G4Forms
 import subprocess as sp
 import g4emma.g4emma_input_setup as G4ISetup
 from django.conf import settings
+from os import environ
 
 def home(request):
     return render(request, 'g4emma/home.html')
@@ -85,32 +86,48 @@ def simulation(request):
             # write to input files
             G4ISetup.write_input_files(userdir_path, sim_params)
 
-            # Set results to a rendering of the sims output? or put the data of the output files there somehow
-            command = " ".join(("G4EMMA_wrapper.sh", "~/Sites/G4EMMA", userdir_path + "/"))  #this last slash is important!!!
+            
+            # Build command to call simulation wrapper 
+            wrapper_path = environ['G4EMMA_VENV_BIN'] + "/G4EMMA_wrapper.sh"
+            command = " ".join((wrapper_path, environ['G4EMMA_APP_PATH'], userdir_path + "/"))  #this last slash is important!!!
+            #command = '/opt/emma/g4emma/venv/bin/test.sh'
+
 
             try:
+                #with open("/data/emma/tinfo.txt", 'w') as f:
+                #    f.write(userdir_path+"\n")
                 results = sp.check_output(command, shell=True, universal_newlines=True)
-            except:
+            except sp.CalledProcessError as e:
+            #except Exception as e:
+                #with open("/data/emma/einfo.txt", 'w') as f:
+                #    f.write("eror calling command: "+command+"\n")
+                #    f.write(str(e)+"\n")
                 # this will only be trigered if there is an error (not warnings)
                 # let user know that something went wrong (give some ideas of what it could be)
                 err_msg = ("An error occured when trying to run the simulation. Check that target and "
                           "degrader thickness is greater than 1e-5, that elements chosen are possible, "
                           "and that the magnetic and electric rigidities determined by central "
                           "trajectory parameters do not exceed maximum allowed values.\n\n")
-                # read rigidities file and set form errors render form
-                with open(userdir_path+"/Results/rigidities.dat") as r_file:
-                    magnetic_rigidity = r_file.readline() #the first two lines are constant
-                    electric_rigidity = r_file.readline()
-                    # then will be 2-4 warning/error lines
-                    rigidity_err_msgs = r_file.read()
 
-                rigidity_err_msgs = ("Magnetic rigidity: {}\n"
-                                     "Electric rigidity: {}\n"
-                                     "{}").format(magnetic_rigidity,
-                                     electric_rigidity,
-                                     rigidity_err_msgs)
+                if (Path(userdir_path+"/Results/rigidities.dat").exists()):
+                    # read rigidities file and set form errors render form
+                    with open(userdir_path+"/Results/rigidities.dat") as r_file:
+                        magnetic_rigidity = r_file.readline() #the first two lines are constant
+                        electric_rigidity = r_file.readline()
+                        # then will be 2-4 warning/error lines
+                        rigidity_err_msgs = r_file.read()
+
+                    rigidity_err_msgs = ("Magnetic rigidity: {}\n"
+                                         "Electric rigidity: {}\n"
+                                         "{}").format(magnetic_rigidity,
+                                         electric_rigidity,
+                                         rigidity_err_msgs)
+                else:
+                    rigidity_err_msgs = ""
+
                 return render(request, 'g4emma/simulation.html',
                 {'forms_list':forms_list, 'general_err_msg':err_msg, 'rigidity_err_msg':rigidity_err_msgs})
+
 
 
             #get a list of the generated output files
@@ -119,14 +136,22 @@ def simulation(request):
             # make a list from that command's output
             outfiles_list = outfiles.strip().splitlines()
 
+            # TODO: These request.sessions are causing an error upon subsequent redirect... But why...?
             # Store the results in a session so that the page we redirect to can access them
             request.session['cmd'] = command
             request.session['results'] = results
             request.session['outdir'] = "/media/"+userdir+"/Results/"
             request.session['outfiles'] = outfiles_list
 
+            with open("/data/emma/userdirs/xinfo.txt", 'w') as f:
+                f.write("userdir: " + userdir + "\n")
+                f.write("userdir_path :" + userdir_path + " \n")
+                f.write("outfiles: " + outfiles + "\n\n")
+                f.write("outfiles list: " + str(outfiles_list) + "\n\n")
+
             # I could use a single return statement but I feel it would be a bit much here
             return redirect('results')
+            #return redirect('about')
 
     else:
         for index, input_form in enumerate(forms_list):
