@@ -31,11 +31,11 @@ import shutil
 #---------------------------------------------------
 def cleanup_old_userdirs():
     p = Path(settings.MEDIA_ROOT) #where the userdirs are stored
-    two_days_ago = datetime.now() - timedelta(days=2)
+    awhile_ago = datetime.now() - timedelta(hours=36)
 
     # remove all user dirs older than 2 days
     for child in p.iterdir():
-        if child.stat().st_ctime < two_days_ago.timestamp():
+        if child.stat().st_ctime <  awhile_ago.timestamp():
             shutil.rmtree(str(child))
 
 
