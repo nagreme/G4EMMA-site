@@ -24,6 +24,9 @@
     </p>
   {% endif %}
 
+  <p class=err-msg>{{ general_err_msg }}</p><br>
+  <pre class=err-msg>{{ rigidity_err_msg }}</pre><br>
+
   <form action="" method="post" novalidate>
     <ul>
       {% for input_form in forms_list %}
