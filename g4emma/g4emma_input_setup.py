@@ -69,7 +69,6 @@ def setup_unique_userdir(user_dirs_path):
     # Setup the directory
     if not Path(userdir_path).exists():
         Path(userdir_path).mkdir()
-        Path(userdir_path).chmod(0o770)
 
     else:
         userdir = None
@@ -215,15 +214,12 @@ def write_input_files(userdir, form_dict):
     if Path(userdir).exists():
         infile_dir_path = userdir + infile_dir_name
         Path(infile_dir_path).mkdir()
-        Path(infile_dir_path).chmod(0o770)
         #also set up the results dir
         outfile_dir_path = userdir + "/Results"
         Path(outfile_dir_path).mkdir()
-        Path(outfile_dir_path).chmod(0o770)
         #also set up the beam sampling dir
         outfile_dir_path = userdir + "/BeamSampling"
         Path(outfile_dir_path).mkdir()
-        Path(outfile_dir_path).chmod(0o770)
 
         # input file names
         alphaSource_file = infile_dir_path + "/alphaSource.dat"
