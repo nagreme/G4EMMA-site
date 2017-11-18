@@ -94,15 +94,8 @@ def simulation(request):
 
 
             try:
-                #with open("/data/emma/tinfo.txt", 'w') as f:
-                #    f.write(userdir_path+"\n")
                 results = sp.check_output(command, shell=True, universal_newlines=True)
             except sp.CalledProcessError as e:
-            #except Exception as e:
-                #with open("/data/emma/einfo.txt", 'w') as f:
-                #    f.write("eror calling command: "+command+"\n")
-                #    f.write(str(e)+"\n")
-                # this will only be trigered if there is an error (not warnings)
                 # let user know that something went wrong (give some ideas of what it could be)
                 err_msg = ("An error occured when trying to run the simulation. Check that target and "
                           "degrader thickness is greater than 1e-5, that elements chosen are possible, "
