@@ -67,10 +67,10 @@ def cleanup_old_userdirs():
 #          running the simulation won't interfere with
 #          each other
 #
-# This should work assuming that PIDs are unique during
-# the entire runtime of the server. This may cause problems
-# if the server is restarted but the goal is to have pretty
-# stringent clean up so this should hopefully not be a problem
+# This should work fairly well assuming old userdirs are
+# cleaned up before the PIDs cycle and there is a collision.
+# If this happens reduce the timedelta (awhile_ago) in the
+# old userdir cleanup function above
 #---------------------------------------------------
 def setup_unique_userdir(user_dirs_path):
     # Get a unique name
@@ -101,7 +101,7 @@ def setup_unique_userdir(user_dirs_path):
 #          values to get a complete set of input values
 #---------------------------------------------------
 def merge_with_defaults(form_dict):
-    MIN_THICKNESS = 0.000004
+    MIN_THICKNESS = 0.000004 # must be bigger than genat4 step length (or something like that)
 
     # so we need a set of default values for most of the input fields
     # and then merge the two dictionaries with the user values overwriting the defaults
