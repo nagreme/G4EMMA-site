@@ -2,6 +2,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 import g4emma.forms as G4Forms
 import subprocess as sp
+from pathlib import Path
 import g4emma.g4emma_input_setup as G4ISetup
 from django.conf import settings
 from os import environ
@@ -75,6 +76,7 @@ def simulation(request):
             userdir = G4ISetup.setup_unique_userdir(user_dirs_path)
             userdir_path = "{}{}".format(user_dirs_path, userdir)
 
+
             if userdir is None:
                 #raise error
                 print("error: we weren't able to setup a userdir") #placeholder
@@ -83,10 +85,10 @@ def simulation(request):
             # Overlay the user input on a set of default values so that we have a complete input set
             sim_params = G4ISetup.merge_with_defaults(sim_params)
 
+
             # write to input files
             G4ISetup.write_input_files(userdir_path, sim_params)
 
-            
             # Build command to call simulation wrapper 
             wrapper_path = environ['G4EMMA_VENV_BIN'] + "/G4EMMA_wrapper.sh"
             command = " ".join((wrapper_path, environ['G4EMMA_APP_PATH'], userdir_path + "/"))  #this last slash is important!!!
@@ -95,12 +97,14 @@ def simulation(request):
 
             try:
                 results = sp.check_output(command, shell=True, universal_newlines=True)
+                
             except sp.CalledProcessError as e:
                 # let user know that something went wrong (give some ideas of what it could be)
                 err_msg = ("An error occured when trying to run the simulation. Check that target and "
                           "degrader thickness is greater than 1e-5, that elements chosen are possible, "
                           "and that the magnetic and electric rigidities determined by central "
                           "trajectory parameters do not exceed maximum allowed values.\n\n")
+
 
                 if (Path(userdir_path+"/Results/rigidities.dat").exists()):
                     # read rigidities file and set form errors render form
@@ -110,6 +114,7 @@ def simulation(request):
                         # then will be 2-4 warning/error lines
                         rigidity_err_msgs = r_file.read()
 
+
                     rigidity_err_msgs = ("Magnetic rigidity: {}\n"
                                          "Electric rigidity: {}\n"
                                          "{}").format(magnetic_rigidity,
@@ -118,8 +123,14 @@ def simulation(request):
                 else:
                     rigidity_err_msgs = ""
 
+
                 return render(request, 'g4emma/simulation.html',
                 {'forms_list':forms_list, 'general_err_msg':err_msg, 'rigidity_err_msg':rigidity_err_msgs})
+
+            except Exception as e:
+                # something else unexpected occured...
+                err_msg = "Some unexpected error occured: {}".format(str(e))
+                return render(request, 'g4emma/simulation.html', {'forms_list':forms_list, 'general_err_msg':err_msg})
 
 
 
@@ -129,18 +140,11 @@ def simulation(request):
             # make a list from that command's output
             outfiles_list = outfiles.strip().splitlines()
 
-            # TODO: These request.sessions are causing an error upon subsequent redirect... But why...?
             # Store the results in a session so that the page we redirect to can access them
             request.session['cmd'] = command
             request.session['results'] = results
             request.session['outdir'] = "/media/"+userdir+"/Results/"
             request.session['outfiles'] = outfiles_list
-
-            with open("/data/emma/userdirs/xinfo.txt", 'w') as f:
-                f.write("userdir: " + userdir + "\n")
-                f.write("userdir_path :" + userdir_path + " \n")
-                f.write("outfiles: " + outfiles + "\n\n")
-                f.write("outfiles list: " + str(outfiles_list) + "\n\n")
 
             # I could use a single return statement but I feel it would be a bit much here
             return redirect('results')
