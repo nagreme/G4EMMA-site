@@ -63,6 +63,7 @@ class ElementField(forms.MultiValueField):
 MAX_PROTON_NUM = 300
 MAX_NUCLEON_NUM = 500
 MIN_THICKNESS = 0.000004
+MAX_EVENTS = 5000
 
 # Note: I use 0 and 1 instead of booleans to allow the JS to use them easily
 
@@ -84,8 +85,8 @@ class AlphaSourceForm(forms.Form):
 
 class BeamForm(forms.Form):
     name = "beam_form"
-    num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events) *required", validators=[MaxValueValidator(25000), MinValueValidator(1)])
-    beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number) *required", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(1)])
+    num_events = forms.IntegerField(required=True, label="n", help_text="(Number of events) *required", validators=[MaxValueValidator(MAX_EVENTS, message=('Ensure this value is less than or equal to %(limit_value)s (to reduce chance of timeouts).')), MinValueValidator(1)])
+    beam_proton_num = forms.IntegerField(required=True, label="Z", help_text="(Proton number) *required", validators=[MaxValueValidator(MAX_PROTON_NUM), MinValueValidator(0)])
     beam_nucleon_num = forms.IntegerField(required=True, label="A", help_text="(Nucleon number) *required", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
     beam_charge_state = forms.IntegerField(required=True, label="Q", help_text="(Charge state) *required")
     beam_kinetic_e = forms.DecimalField(required=True, label="E", help_text="MeV (Kinetic energy) *required", validators=[MinValueValidator(0)])
