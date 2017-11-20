@@ -48,6 +48,7 @@ def simulation(request):
     G4Forms.IonChamberForm
     ]
 
+    # if a form was submitted (using POST)
     if request.method == 'POST':
         forms_are_all_valid = True
 
@@ -55,7 +56,7 @@ def simulation(request):
             #setup the forms
             forms_list[index] = input_form(request.POST)
 
-            #test their validity
+            #test their validity (false if any form is not valid)
             forms_are_all_valid = forms_are_all_valid and forms_list[index].is_valid()
 
 
@@ -85,7 +86,7 @@ def simulation(request):
             # write to input files
             G4ISetup.write_input_files(userdir_path, sim_params)
 
-            # Set results to a rendering of the sims output? or put the data of the output files there somehow
+            # Build call to simulation wrapper
             command = " ".join(("G4EMMA_wrapper.sh", "~/Sites/G4EMMA", userdir_path + "/"))  #this last slash is important!!!
 
             try:
