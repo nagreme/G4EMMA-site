@@ -115,11 +115,10 @@ def simulation(request):
                         rigidity_err_msgs = r_file.read()
 
 
-                    rigidity_err_msgs = ("Magnetic rigidity: {}\n"
-                                         "Electric rigidity: {}\n"
-                                         "{}").format(magnetic_rigidity,
+                    rigidity_err_msgs = "{}\n{}\n{}".format(magnetic_rigidity,
                                          electric_rigidity,
                                          rigidity_err_msgs)
+
                 else:
                     rigidity_err_msgs = ""
 
