@@ -7,6 +7,7 @@
 {% load static %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="{% static 'g4emma/forms_visibility_control.js' %}"></script>
+<script src="{% static 'g4emma/form_messages.js' %}"></script>
 {% endblock %}
 
 <!-- Navigation -->
@@ -27,7 +28,7 @@
   <p class=err-msg>{{ general_err_msg }}</p>
   <pre class=err-msg>{{ rigidity_err_msg }}</pre><br>
 
-  <form action="" method="post" novalidate>
+  <form id="sim_form" action="" method="post" novalidate>
     <ul>
       {% for input_form in forms_list %}
         <div class="{{input_form.name}}">
