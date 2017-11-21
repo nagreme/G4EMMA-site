@@ -50,17 +50,15 @@
   </div> <!-- End page-wrap -->
 
   <!-- Footer -->
-  <footer class="footer container-fluid text-center">
-    <div class="row">
-      <a class="col" href="http://www.triumf.ca/">
-        <!-- I'll have to figure out where to store this image for it to be rendered -->
-        <img src="{% static 'g4emma/images/TRIUMF_logo_white.png' %}" alt="TRIUMF logo">
-      </a>
-      <a class="col"
-      href="{% block footer_contact_url %}{% url 'about' %}{% endblock %}"
-      >Contact Us</a>
-      <!-- Set the date when you're done -->
-      <p class="col">Date Updated: 2017-10-04</p>
+  <footer>
+    <a class=logo href="http://www.triumf.ca/">
+      <img src="{% static 'g4emma/images/TRIUMF_logo_white.png' %}" alt="TRIUMF logo">
+    </a>
+    <div class="footer-text">
+      <a
+      href="{% block footer_contact_url %}{% url 'about' %}{% endblock %}">
+      Contact Us</a>
+      <p>Date Updated: 2017-Nov-21</p>
     </div>
   </footer>
 
