@@ -134,3 +134,57 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = os.environ['G4EMMA_DATA_DIR']
 MEDIA_URL = '/media/'
 
+
+# Logging settings 
+LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': 
+        {
+            'simple': 
+            {
+                'format': '[%(asctime)s] %(levelname)s %(message)s',
+                'datefmt': '%Y-%m-%d %H:%M:%S'
+            }, # simple
+            'verbose':
+            {
+                'format': '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s',
+                'datefmt': '%Y-%m-%d %H:%M:%S'
+            }, # verbose
+        }, # formatters
+        'handlers': 
+        {
+            'dev_logfile': 
+            {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': (os.environ['G4EMMA_LOG_PATH']+'/g4emma_debug.log'),
+                'maxBytes': 1024*1024*50, # 50MB
+                'backupCount': 2,
+                'formatter': 'verbose'
+            }, # dev_logfile
+            'production_logfile':
+            {
+                'level': 'ERROR',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': (os.environ['G4EMMA_LOG_PATH']+'/g4emma_production.log'),
+                'maxBytes': 1024*1024*50, # 50MB
+                'backupCount': 2,
+                'formatter': 'simple'
+            }, # production_logfile
+        }, # handlers
+        'loggers':
+        {
+            'django':
+            {
+                'handlers': ['dev_logfile', 'production_logfile']
+            }, # django
+            'django.request':
+            {
+                'handlers': ['dev_logfile'] # this is more to disable the mail_admin handler than to actually use it
+            } #django.request
+        }, # loggers
+} # LOGGING
+
+
+

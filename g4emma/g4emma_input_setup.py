@@ -19,6 +19,13 @@ import g4emma.infile_templates as IFileTemplates
 from datetime import datetime, timedelta
 from django.conf import settings
 import shutil
+import logging
+
+#===========================
+# LOGGER SETUP
+#===========================
+stdlogger = logging.getLogger('django')
+
 
 #===========================
 # FUCNTIONS
@@ -32,6 +39,8 @@ import shutil
 def cleanup_old_userdirs():
     p = Path(settings.MEDIA_ROOT) #where the userdirs are stored
     awhile_ago = datetime.now() - timedelta(hours=36)
+
+    stdlogger.info("Removing all user dirs older than " + str(awhile_ago))
 
     # remove all user dirs older than 2 days
     for child in p.iterdir():
@@ -69,10 +78,12 @@ def setup_unique_userdir(user_dirs_path):
 
     # Setup the directory
     if not Path(userdir_path).exists():
+        stdlogger.info("The chosen PID was available: "+ userdir)
         Path(userdir_path).mkdir()
 
     else:
         userdir = None
+        stdlogger.error("The chosen PID was alreaday in use: "+ userdir)
         raise error
 
     return userdir
@@ -197,6 +208,7 @@ def merge_with_defaults(form_dict):
 
     else:
         #raise an error
+        stdlogger.error("merge with defaults' parameter was not of type dict")
         print("error: merge_with_defaults, not dict") # placeholder
 
     return default_vals
@@ -213,6 +225,7 @@ def write_input_files(userdir, form_dict):
     # Make the input files directory
     infile_dir_name = "/UserInput"
     if Path(userdir).exists():
+        #TODO merge these into one stmt each
         infile_dir_path = userdir + infile_dir_name
         Path(infile_dir_path).mkdir()
         #also set up the results dir
@@ -237,40 +250,49 @@ def write_input_files(userdir, form_dict):
         f = open(alphaSource_file, 'w')
         f.write(IFileTemplates.alphaSource_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+alphaSource_file)
 
         # write beam
         f = open(beam_file, 'w')
         f.write(IFileTemplates.beam_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+beam_file)
 
         # write central trajectory
         f = open(central_traj_file, 'w')
         f.write(IFileTemplates.centralTrajectory_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+central_traj_file)
 
         # write ion chamber
         f = open(ion_chamber_file, 'w')
         f.write(IFileTemplates.ionChamber_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+ion_chamber_file)
 
         # write mwpc
         f = open(mwpc_file, 'w')
         f.write(IFileTemplates.mwpc_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+mwpc_file)
 
         # write reaction
         f = open(rxn_file, 'w')
         f.write(IFileTemplates.reaction_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+rxn_file)
 
         # write slits
         f = open(slits_file, 'w')
         f.write(IFileTemplates.slits_datfile.format(**form_dict))
         f.close()
+        stdlogger.info("Wrote "+slits_file)
 
         write_target_degraders(target_degraders_file, form_dict)
+        stdlogger.info("Wrote "+target_degraders_file)
 
     else:
+        stdlogger.error("Userdir does not exist, could not write input files")
         # raise error
         print("error: write_input_files, user dir path doesn't exist")
 
