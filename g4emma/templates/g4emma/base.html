@@ -10,12 +10,15 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans|Roboto" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="{% static 'g4emma/style.css' %}" type="text/css">
-  {% block js_links %}{% endblock %}
+  {% block js_links %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="{% static 'g4emma/anchor_navigation.js' %}"></script>
+  {% endblock %}
 </head>
 
 <body>
   <!-- Start page-wrap -->
-  <div class="{% block page_wrap_class %}page-wrap{% endblock %}">
+  <div id="top" class="{% block page_wrap_class %}page-wrap{% endblock %}">
 
     <!-- header -->
     <a href="{% block header_url %}{% url 'home' %}{% endblock %}"> <!-- Make it a link back to this page -->
@@ -47,6 +50,8 @@
       {% block main_content %}{% endblock %}
     </main>
 
+    <a id="top-link" href="#top">Top</a>
+
   </div> <!-- End page-wrap -->
 
   <!-- Footer -->
@@ -56,7 +61,7 @@
     </a>
     <div class="footer-text">
       <a
-      href="{% block footer_contact_url %}{% url 'about' %}{% endblock %}">
+      href="{% block footer_contact_url %}{% url 'about' %}#contact{% endblock %}">
       Contact Us</a>
       <p>Date Updated: 2017-Nov-21</p>
     </div>

@@ -59,6 +59,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
   margin: 0px;
   padding: 0px;
+  cursor: pointer;
 }
 
 a header {
@@ -120,6 +121,24 @@ nav a.nav-pill-active {
 nav a.nav-pill-active:active {
   background-color: #054d8c;
   color: #F0F0F0;
+}
+
+#top-link {
+  position: fixed;
+  bottom: 65px;
+  right: 0px;
+  background-color: #CCC;
+  color: #005BAA;
+  padding:  5px 25px;
+  border-radius: 7px;
+  margin: 20px 30px;
+  display: none;
+}
+
+#top-link:hover {
+  background-color: #AAA;
+  color: #054d8c;
+  text-decoration: none;
 }
 
 
