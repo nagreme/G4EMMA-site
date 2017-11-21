@@ -57,6 +57,7 @@ def simulation(request):
     G4Forms.IonChamberForm
     ]
 
+    # if a form was submitted (using POST)
     if request.method == 'POST':
         stdlogger.info("POST request in simulation view")
         forms_are_all_valid = True
@@ -65,7 +66,7 @@ def simulation(request):
             #setup the forms
             forms_list[index] = input_form(request.POST)
 
-            #test their validity
+            #test their validity (false if any form is not valid)
             forms_are_all_valid = forms_are_all_valid and forms_list[index].is_valid()
 
 

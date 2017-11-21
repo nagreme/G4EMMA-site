@@ -57,7 +57,7 @@ $(document).ready(function(){
     ".ion_chamber_form"
   ];
 
-  // Then show optional forms that are already toggled
+  // Hide the optional forms
   for (i = 0; i < toggles_arr.length; i++)
   {
     if (!parseInt($(toggles_arr[i]).val()))
@@ -297,14 +297,6 @@ $(document).ready(function(){
     $(".ion_chamber_form").toggle();
     $(".ion_chamber_form input").val("");
   });
-
-
-  // display a message to the user upon submit to let them know the results will take a while
-  $("input[type='submit']").click(function (){
-    $("#submit-msg").text("You will be redirected to the results once the simulation is complete. This may take a while. Please do not close or refresh the page in the meantime.")
-  })
-
-
 
 
 
