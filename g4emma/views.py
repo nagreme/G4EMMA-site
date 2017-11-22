@@ -127,7 +127,7 @@ def simulation(request):
                 if (Path(userdir_path+"/Results/rigidities.dat").exists()):
                     stdlogger.info("Checking the rigidities file for error msgs")
                     # read rigidities file and set form errors render form
-                    with open(userdir_path+"/Results/rigidities.dat") as r_file:
+                    with open(userdir_path+"/Results/rigidities.dat", 'r') as r_file:
                         magnetic_rigidity = r_file.readline() #the first two lines are constant
                         electric_rigidity = r_file.readline()
                         # then will be 2-4 warning/error lines
