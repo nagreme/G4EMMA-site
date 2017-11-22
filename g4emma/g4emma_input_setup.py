@@ -223,7 +223,6 @@ def write_input_files(userdir, form_dict):
     # Make the input files directory
     infile_dir_name = "/UserInput"
     if Path(userdir).exists():
-        #TODO merge these into one stmt each
         infile_dir_path = userdir + infile_dir_name
         Path(infile_dir_path).mkdir()
         #also set up the results dir
