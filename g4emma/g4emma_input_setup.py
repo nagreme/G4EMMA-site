@@ -81,18 +81,20 @@ def setup_unique_userdir(user_dirs_path):
 
     # Build full path
     # (left pad zeroes to width 5)
-    userdir = "UserDir_{:0>5}".format(matched_part.group(1))
+    curr_dir_num = int(matched_part.group(1))
+    userdir = "UserDir_{:0>5}".format(curr_dir_num)
     userdir_path = "{}{}".format(user_dirs_path, userdir)
 
-    # Setup the directory
-    if not Path(userdir_path).exists():
-        Path(userdir_path).mkdir()
+    while (Path(userdir_path).exists()):
+        curr_dir_num += 1
+        userdir = "UserDir_{:0>5}".format(curr_dir_num)
+        userdir_path = "{}{}".format(user_dirs_path, userdir)
 
-    else:
-        userdir = None
-        raise error
+    # Setup the directory
+    Path(userdir_path).mkdir()
 
     return userdir
+
 
 #---------------------------------------------------
 # merge_with_defaults
