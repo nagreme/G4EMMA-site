@@ -33,12 +33,12 @@ stdlogger = logging.getLogger('django')
 
 #---------------------------------------------------
 # cleanup_old_userdirs
-# PURPOSE: Get rid of all user directories that are
-#          older than 2 days
+# PURPOSE: Get rid of all old user directories
 #---------------------------------------------------
 def cleanup_old_userdirs():
     p = Path(settings.MEDIA_ROOT) #where the userdirs are stored
-    awhile_ago = datetime.now() - timedelta(hours=36)
+    #awhile_ago = datetime.now() - timedelta(hours=36)
+    awhile_ago = datetime.now() - timedelta(days=2)
 
     stdlogger.info("Removing all user dirs older than " + str(awhile_ago))
 
@@ -48,21 +48,17 @@ def cleanup_old_userdirs():
             shutil.rmtree(str(child))
 
 
-
-
 #---------------------------------------------------
 # setup_unique_userdir
-# PARAMETERs: The location of the user directory (no trailing '/'' required)
+# PARAMETERs: The location of the user directory (with trailing'/')
 # RETURNS: The name of the unique user dir that was
 #          created
 # PURPOSE: Setup unique directories so different users
 #          running the simulation won't interfere with
 #          each other
 #
-# This should work fairly well assuming old userdirs are
-# cleaned up before the PIDs cycle and there is a collision.
-# If this happens reduce the timedelta (awhile_ago) in the
-# old userdir cleanup function above
+# It'll start with a "random" PID and increment until
+# it finds a number not in use
 #---------------------------------------------------
 def setup_unique_userdir(user_dirs_path):
     # Get a unique name
@@ -73,20 +69,22 @@ def setup_unique_userdir(user_dirs_path):
 
     # Build full path
     # (left pad zeroes to width 5)
-    userdir = "UserDir_{:0>5}".format(matched_part.group(1))
+    curr_dir_num = int(matched_part.group(1))
+    userdir = "UserDir_{:0>5}".format(curr_dir_num)
     userdir_path = "{}{}".format(user_dirs_path, userdir)
 
-    # Setup the directory
-    if not Path(userdir_path).exists():
-        stdlogger.info("The chosen PID was available: "+ userdir)
-        Path(userdir_path).mkdir()
+    # Cycle until you find a dir not in use
+    while (Path(userdir_path).exists()):
+        curr_dir_num += 1
+        userdir = "UserDir_{:0>5}".format(curr_dir_num)
+        userdir_path = "{}{}".format(user_dirs_path, userdir)
 
-    else:
-        userdir = None
-        stdlogger.error("The chosen PID was alreaday in use: "+ userdir)
-        raise error
+    # Setup the directory
+    stdlogger.info("The chosen PID was available: "+ userdir)
+    Path(userdir_path).mkdir()
 
     return userdir
+
 
 #---------------------------------------------------
 # merge_with_defaults
