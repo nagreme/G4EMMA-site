@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,16 @@ STATIC_URL = '/static/'
 # Media files (other stuff, like the simulation output and input)
 MEDIA_ROOT = '/data/emma/'
 MEDIA_URL = '/media/'
+
+
+# Channels
+# https://channels.readthedocs.io/en/latest/index.html
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "g4emma.routing.channel_routing",
+    },
+}

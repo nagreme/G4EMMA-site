@@ -1,0 +1,76 @@
+{% extends "g4emma/base.html" %}
+
+<!-- Title -->
+{% block title %}{{ block.super }} - Progress{% endblock %}
+
+{% block js_links %}
+{% load static %}
+{{ block.super }}
+<!-- I'm putting this here so that I can use template tags within -->
+<script type="text/javascript">
+$(document).ready(function(){
+  //Setup
+  var curr_events = 0;
+  var bar_size = 10;
+  var bar_percent;
+  var bar_progress;
+  var bar = "[";
+  for (i = 0; i < bar_size; i++) {
+    bar += "-";
+  }
+  bar += "] 0%"
+  $("#progress_bar").text(bar);
+
+  var total_event = {{ num_events }}
+
+  // const webSocketBridge = new channels.WebSocketBridge();
+  socket = new WebSocket("ws://" + window.location.host);
+  socket.onopen = function() {
+    console.log('WebSockets connection created.');
+  }
+  socket.onmessage = function(msg) {
+    console.log(msg.data + ' received.');
+    // $("#progress_bar").text(data['text']);
+
+    //add to progress bar
+    if (msg.data == "event"){
+      curr_events++;
+      // redraw the bar
+      // where are we at?
+      bar_percent = Math.round((curr_events/total_event)*100);
+      bar_progress = Math.round((curr_events/total_event)*bar_size);
+
+      bar = "[";
+
+      // draw the progress (without exceeding bar size)
+      for (i = 0; i < bar_progress && i < bar_size; i++) {
+        bar += "#";
+      }
+      // then the remainder
+      for (i = 0; i < bar_size - bar_progress; i++) {
+        bar += "-"
+      }
+      bar += "] " + bar_percent + "%";
+
+      //update it
+      $("#progress_bar").text(bar);
+      console.log('progress bar set');
+    }
+    else if (msg.data == "end"){
+      window.location.replace("{% url 'results' %}");
+    }
+  }
+});
+</script>
+{% endblock %}
+
+<!-- Navigation
+    This page won't do anything to the navbar since it could display results for anything and we don't want a link to it -->
+
+<!-- Main Content -->
+{% block main_content %}
+
+<!-- TODO: Make sure to style this with a monospace font if you're going to use a text based one -->
+<p id="progress_bar"></p>
+
+{% endblock %}

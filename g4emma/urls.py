@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^simulation/$', views.simulation, name='simulation'),
     url(r'^tools/$', views.tools, name='tools'),
     url(r'^results/$', views.results, name='results'),
+    url(r'^progress/$', views.progress, name='progress'),
 ]
