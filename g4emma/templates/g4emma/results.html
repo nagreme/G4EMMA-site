@@ -10,8 +10,8 @@
 {% block main_content %}
 <div class="results">
   <ul>
-    {% for outfile in request.session.outfiles %}
-      <li><a href="{{ request.session.outdir }}{{ outfile }}">{{ outfile }}</a></li>
+    {% for outfile in outfiles %}
+      <li><a href="{{ outdir }}{{ outfile }}">{{ outfile }}</a></li>
     {% endfor %}
   </ul>
 </div>

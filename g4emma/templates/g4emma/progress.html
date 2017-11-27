@@ -28,6 +28,7 @@ $(document).ready(function(){
   socket.onopen = function() {
     console.log('WebSockets connection created.');
   }
+  
   socket.onmessage = function(msg) {
     console.log(msg.data + ' received.');
     // $("#progress_bar").text(data['text']);
@@ -59,6 +60,9 @@ $(document).ready(function(){
     else if (msg.data == "end"){
       window.location.replace("{% url 'results' %}");
     }
+    else if (msg.data == "error"){
+      window.location.replace("{% url 'simulation' %}")
+    }
   }
 });
 </script>
@@ -70,7 +74,6 @@ $(document).ready(function(){
 <!-- Main Content -->
 {% block main_content %}
 
-<!-- TODO: Make sure to style this with a monospace font if you're going to use a text based one -->
 <p id="progress_bar"></p>
 
 {% endblock %}
