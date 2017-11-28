@@ -21,6 +21,8 @@ def ws_connect(message):
     # Store the suer dir from the http session in the channel session
     message.channel_session['userdir'] = message.http_session['userdir']
 
+    stdlogger.info("Websocket added to group: " + message.http_session['userdir'])
+
     # Add them to their userdir Group
     Group(message.http_session['userdir']).add(message.reply_channel)
 
