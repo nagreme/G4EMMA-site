@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -135,13 +136,27 @@ MEDIA_ROOT = os.environ['G4EMMA_DATA_DIR']
 MEDIA_URL = '/media/'
 
 
-# Logging settings 
+# Channels
+# https://channels.readthedocs.io/en/latest/index.html
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "g4emma.routing.channel_routing",
+    },
+}
+
+
+
+# Logging settings
 LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'formatters': 
+        'formatters':
         {
-            'simple': 
+            'simple':
             {
                 'format': '[%(asctime)s] %(levelname)s %(message)s',
                 'datefmt': '%Y-%m-%d %H:%M:%S'
@@ -185,6 +200,4 @@ LOGGING = {
             } #django.request
         }, # loggers
 } # LOGGING
-
-
 

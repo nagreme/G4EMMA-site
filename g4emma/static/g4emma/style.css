@@ -188,6 +188,10 @@ form ul {
   list-style: none;
 }
 
+#progress_bar {
+  font-family: monospace;
+}
+
 
 /*-----------------------------------------
 * FOOTER STYLES

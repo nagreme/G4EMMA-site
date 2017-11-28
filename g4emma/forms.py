@@ -148,8 +148,8 @@ class ReactionForm(forms.Form):
     rxn_a4 = forms.IntegerField(required=False, label="A4", help_text="(A4 ejectile)", validators=[MaxValueValidator(MAX_NUCLEON_NUM), MinValueValidator(1)])
 
     header_line4 = forms.CharField(widget=HeaderWidget(attrs={'class': 'form-header'}), initial='', required=False, label='Properties of recoil (#3):')
-    rxn_min_angle = forms.DecimalField(required=False, label="\u03b8cm,min", help_text="deg (min cm angle of ejectile)")
-    rxn_max_angle = forms.DecimalField(required=False, label="\u03b8cm,max", help_text="deg (max cm angle of ejectile)")
+    rxn_min_angle = forms.DecimalField(required=False, label="\u03b8cm,min", help_text="deg (min cm angle of ejectile)", validators=[MaxValueValidator(360), MinValueValidator(0)])
+    rxn_max_angle = forms.DecimalField(required=False, label="\u03b8cm,max", help_text="deg (max cm angle of ejectile)", validators=[MaxValueValidator(360), MinValueValidator(0)])
     rxn_recoil_charge = forms.IntegerField(required=False, label="Q3", help_text="(charge state of recoil)")
     rxn_recoil_excitation_e = forms.DecimalField(required=False, label="Ex", help_text="MeV (excitation energy of recoil)")
 

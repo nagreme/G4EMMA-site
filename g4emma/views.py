@@ -6,9 +6,13 @@ from pathlib import Path
 import g4emma.g4emma_input_setup as G4ISetup
 from django.conf import settings
 from os import environ
+from channels import Channel
+from django.core import serializers
+from pathlib import Path
 import logging
 
 stdlogger = logging.getLogger('django')
+
 
 def home(request):
     stdlogger.info("Call to home view")
@@ -94,6 +98,8 @@ def simulation(request):
                 stdlogger.error("Unique user dir was not created")
                 #raise error
                 print("error: we weren't able to setup a userdir") #placeholder
+                # this is actually handled in the setup method
+                # so this is probably dead code and I really should remove it...
 
 
             # Overlay the user input on a set of default values so that we have a complete input set
@@ -112,72 +118,83 @@ def simulation(request):
 
             stdlogger.info("About to call simulation wrapper: "+command)
 
-            try:
-                results = sp.check_output(command, shell=True, universal_newlines=True)
-                
-            except sp.CalledProcessError as e:
-                stdlogger.exception(e)
-                # let user know that something went wrong (give some ideas of what it could be)
-                err_msg = ("An error occured when trying to run the simulation. Check that target and "
-                          "degrader thickness is greater than 1e-5, that elements chosen are possible, "
-                          "and that the magnetic and electric rigidities determined by central "
-                          "trajectory parameters do not exceed maximum allowed values.\n\n")
-
-
-                if (Path(userdir_path+"/Results/rigidities.dat").exists()):
-                    stdlogger.info("Checking the rigidities file for error msgs")
-                    # read rigidities file and set form errors render form
-                    with open(userdir_path+"/Results/rigidities.dat", 'r') as r_file:
-                        magnetic_rigidity = r_file.readline() #the first two lines are constant
-                        electric_rigidity = r_file.readline()
-                        # then will be 2-4 warning/error lines
-                        rigidity_err_msgs = r_file.read()
-
-
-                    rigidity_err_msgs = "{}\n{}\n{}".format(magnetic_rigidity,
-                                         electric_rigidity,
-                                         rigidity_err_msgs)
-
-                else:
-                    rigidity_err_msgs = ""
-
-
-                return render(request, 'g4emma/simulation.html',
-                {'forms_list':forms_list, 'general_err_msg':err_msg, 'rigidity_err_msg':rigidity_err_msgs})
-
-            except Exception as e:
-                stdlogger.exception(e)
-                # something else unexpected occured...
-                err_msg = "Some unexpected error occured: {}".format(str(e))
-                return render(request, 'g4emma/simulation.html', {'forms_list':forms_list, 'general_err_msg':err_msg})
-
-
-
-            stdlogger.info("Simulation completed without error")
-
-            #get a list of the generated output files
-            outfiles = str(sp.check_output("ls -l "+userdir_path+"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
-
-            # make a list from that command's output
-            outfiles_list = outfiles.strip().splitlines()
-
-            stdlogger.info("List of output files obtained")
-
-            # Store the results in a session so that the page we redirect to can access them
+            # Store data in the session (everything the sim start consummer needs)
             request.session['cmd'] = command
-            request.session['results'] = results
-            request.session['outdir'] = "/media/"+userdir+"/Results/"
-            request.session['outfiles'] = outfiles_list
+            request.session['userdir'] = userdir
+            request.session['userdir_path'] = userdir_path
 
-            # I could use a single return statement but I feel it would be a bit much here
-            return redirect('results')
-            #return redirect('about')
+            # The forms are not JSON serializable
+            # TODO Fix this...
+            # request.session['forms_list'] = data
 
+
+            # Send sim start msg on that consummer's channel
+            Channel("sim_start_channel").send({
+                'text': "start",
+                'cmd': command,
+                'userdir': userdir,
+            })
+
+            # There are multiple return statements in this function
+            return redirect('progress')
+
+        # forms are not all valid so send users back
+        else:
+            return render
+
+
+    # If not POST
     else:
-        for index, input_form in enumerate(forms_list):
-            #setup the forms
-            forms_list[index] = input_form()
+        # If rigidities.dat exists in this branch it means a simulation
+        # error occured and we need to display it to the user
+        if ('userdir_path' in request.session and
+            Path(request.session['userdir_path']+"/Results/rigidities.dat").exists()):
+            # let user know that something went wrong (give some ideas of what it could be)
+            err_msg = ("An error occured when trying to run the simulation. Check that target and "
+            "degrader thickness is greater than 1e-5, that elements chosen are possible, "
+            "and that the magnetic and electric rigidities determined by central "
+            "trajectory parameters do not exceed maximum allowed values.\n\n")
 
+            stdlogger.info("Checking the rigidities file for error msgs")
+
+            rigidity_err_msgs = ""
+            # read rigidities file and set form errors render form
+            with open(request.session['userdir_path']+"/Results/rigidities.dat", 'r') as r_file:
+                magnetic_rigidity = r_file.readline() #the first two lines are constant
+                electric_rigidity = r_file.readline()
+                # then will be 2-4 warning/error lines
+                rigidity_err_msgs = r_file.read()
+
+                rigidity_err_msgs = "{}\n{}\n{}".format(magnetic_rigidity,
+                electric_rigidity,
+                rigidity_err_msgs)
+
+            # If we've gotten this far we should clear the http session so that
+            # the next request for a clean form doesn't get misinterpreted as
+            # an errored form
+
+            # pull out what we need
+            # TODO Fix non-JSON-serializable forms problem
+            # forms_list = request.session.pop('forms_list', {})
+            for index, input_form in enumerate(forms_list):
+                #setup the forms
+                forms_list[index] = input_form()
+
+            # then clear away the rest
+            request.session.clear()
+
+            # There are multiple return statements in this function
+            return render(request, 'g4emma/simulation.html',
+                {'forms_list': forms_list, 'general_err_msg': err_msg, 'rigidity_err_msg': rigidity_err_msgs})
+
+        # No rigidities.dat => no error => new empty form
+        else:
+            for index, input_form in enumerate(forms_list):
+                #setup the forms
+                forms_list[index] = input_form()
+
+
+    # There are multiple return statements in this function
     return render(request, 'g4emma/simulation.html', {'forms_list': forms_list})
 
 
@@ -185,10 +202,48 @@ def tools(request):
     stdlogger.info("Call to tools view")
     return render(request, 'g4emma/tools.html')
 
+
 def results(request):
     stdlogger.info("Call to results view")
-    return render(request, 'g4emma/results.html',
-        {'results':request.session.pop('results', {}),
-         'outfiles':request.session.pop('outfiles', {}),
-         'outdir':request.session.pop('outdir', "#"),
-          'cmd':request.session.pop('cmd', "command not generated")})
+
+    # Prep the info we need
+    outdir = "/media/"+ request.session['userdir'] +"/Results/"
+
+    #get a list of the generated output files
+    outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
+
+    # make a list from that command's output
+    outfiles_list = outfiles.strip().splitlines()
+
+    # Clear the session (leftover stuff is interpreted as indication of
+    # a sim error if the user goes back to the simulation page)
+    request.session.clear()
+
+    return render(request, 'g4emma/results.html', {'outdir': outdir, 'outfiles': outfiles_list})
+
+
+def progress(request):
+    # Fetch number of events from the user input
+    num_events = 0
+    with open(request.session['userdir_path']+"/UserInput/beam.dat", 'r') as f:
+        # should be the first token on the first line
+        num_events = int(f.readline().split()[0])
+
+    z2 = ""
+    a2 = ""
+    # Number of events also depends on whether there is a rxn specified
+    with open(request.session['userdir_path']+"/UserInput/reaction.dat", 'r') as f:
+        # should be the first token on the first line
+        f.readline() # top comment
+        f.readline() # z1
+        f.readline() # a1
+        z2 = f.readline().split()[0]
+        a2 = f.readline().split()[0]
+
+    # If there is a rxn, we have 3 sets of events: do beam, do prepare, and do rxn
+    if (z2 != "0" or a2 != "0"):
+        # I don't know if this is the logic they meant to express but
+        # I'm mirroring what's in the simulation app so it's consistent
+        num_events *= 3
+
+    return render(request, 'g4emma/progress.html', { 'num_events': num_events})

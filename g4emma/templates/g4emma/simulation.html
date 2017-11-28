@@ -5,7 +5,7 @@
 
 {% block js_links %}
 {% load static %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{{ block.super }}
 <script src="{% static 'g4emma/forms_visibility_control.js' %}"></script>
 <script src="{% static 'g4emma/form_messages.js' %}"></script>
 {% endblock %}
