@@ -17,7 +17,7 @@ source /opt/emma/geant4.9.6-install/bin/mygeant4.sh
 #echo "USerDir $2" >> $WRAPPER_FILE
 
 # with autorun enabled
-"$G4EMMA_APP_PATH"/EMMAapp visOff $1 $2 <<< exit
+"$G4EMMA_SIM_PATH"/EMMAapp visOff $1 $2 <<< exit
 
 #echo "sim done" >> $WRAPPER_FILE
 
