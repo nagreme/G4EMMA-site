@@ -10,25 +10,25 @@
 <script type="text/javascript">
 $(document).ready(function(){
   //Setup
-  var curr_events = 0;
-  var bar_size = 10;
+  var curr_events = 0.0;
+  var bar_size = 100;
   var bar_percent;
   var bar_progress;
   var bar = "[";
   for (i = 0; i < bar_size; i++) {
     bar += "-";
   }
-  bar += "] 0%"
+  bar += "] 0%";
   $("#progress_bar").text(bar);
 
-  var total_event = {{ num_events }}
+  var total_events = {{ num_events }};
 
   // const webSocketBridge = new channels.WebSocketBridge();
   socket = new WebSocket("ws://" + window.location.host);
   socket.onopen = function() {
     console.log('WebSockets connection created.');
   }
-  
+
   socket.onmessage = function(msg) {
     console.log(msg.data + ' received.');
     // $("#progress_bar").text(data['text']);
@@ -36,10 +36,11 @@ $(document).ready(function(){
     //add to progress bar
     if (msg.data == "event"){
       curr_events++;
+
       // redraw the bar
       // where are we at?
-      bar_percent = Math.round((curr_events/total_event)*100);
-      bar_progress = Math.round((curr_events/total_event)*bar_size);
+      bar_percent = Math.round((curr_events/total_events)*100);
+      bar_progress = Math.round((curr_events/total_events)*bar_size);
 
       bar = "[";
 
@@ -49,7 +50,7 @@ $(document).ready(function(){
       }
       // then the remainder
       for (i = 0; i < bar_size - bar_progress; i++) {
-        bar += "-"
+        bar += "-";
       }
       bar += "] " + bar_percent + "%";
 
@@ -61,7 +62,7 @@ $(document).ready(function(){
       window.location.replace("{% url 'results' %}");
     }
     else if (msg.data == "error"){
-      window.location.replace("{% url 'simulation' %}")
+      window.location.replace("{% url 'simulation' %}");
     }
   }
 });
