@@ -122,7 +122,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Media files (other stuff, like the simulation output and input)
-MEDIA_ROOT = '/data/emma/'
+MEDIA_ROOT = '/data/emma/userdirs/'
 MEDIA_URL = '/media/'
 
 
