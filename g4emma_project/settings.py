@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'g4emma_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(os.environ['G4EMMA_DB_PATH'], 'db.sqlite3'),
     }
 }
 
@@ -122,7 +122,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Media files (other stuff, like the simulation output and input)
-MEDIA_ROOT = '/data/emma/userdirs/'
+MEDIA_ROOT = os.environ['G4EMMA_DATA_DIR']
 MEDIA_URL = '/media/'
 
 

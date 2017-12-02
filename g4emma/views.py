@@ -95,7 +95,8 @@ def simulation(request):
             G4ISetup.write_input_files(userdir_path, sim_params)
 
             # Build call to simulation wrapper
-            command = " ".join(("G4EMMA_wrapper.sh", "~/Sites/G4EMMA", userdir_path + "/"))  #this last slash is important!!!
+            wrapper_path = environ['G4EMMA_WRAPPER']
+            command = " ".join((wrapper_path, environ['G4EMMA_SIM_PATH'], userdir_path + "/"))  #this last slash is important!!!
 
             # Store data in the session (everything the sim start consummer needs)
             request.session['cmd'] = command
