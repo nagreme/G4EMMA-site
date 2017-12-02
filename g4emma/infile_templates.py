@@ -24,7 +24,7 @@ beam_datfile = ("{num_events}\t# number of events\n"
 centralTrajectory_datfile = ("{center_traj_proton_num}\t# Z\n"
                              "{center_traj_nucleon_num}\t# A\n"
                              "{center_traj_charge_state}\t# charge state Q\n"
-                             "{center_traj_kinetic_e}\t#kinteic energy (MeV)\n")
+                             "{center_traj_kinetic_e}\t# kinteic energy (MeV)\n")
 
 ionChamber_datfile = ("{ion_chamber_inserted}\t# IN/OUT\n"
                       "{ion_chamber_pressure}\t# pressure (torr)\n"
@@ -43,7 +43,7 @@ reaction_datfile = ("# Two-body reaction: 1 + 2 --> 3 + 4\n"
                     "{rxn_a3}\t# A3\n"
                     "{rxn_z4_ejectile}\t# Z4 ejectile\n"
                     "{rxn_a4}\t# A4\n"
-                    "{rxn_min_angle}\t# min c.m. angle ofejectile\n"
+                    "{rxn_min_angle}\t# min c.m. angle of ejectile\n"
                     "{rxn_max_angle}\t# max c.m. angle of ejectile\n"
                     "{rxn_recoil_charge}\t# charge state of recoil\n"
                     "{rxn_recoil_excitation_e}\t# excitation energy of recoil\n"
@@ -59,7 +59,7 @@ slits_datfile = ("# SLITS 1 (HORIZONTAL)\n"
                  "{slit_4_inserted}\t\t# OUT/(mm)\n")
 
 targetDegraders_datfile = ("# TARGET\n"
-                           "{target_inserted}\t# IN/OUT/\n"
+                           "{target_inserted}\t# IN/OUT\n"
                            "{target_thickness}\t# thickness (um)\n"
                            "{target_z_pos}\t# target z position offset (cm)\n"
                            "{target_density}\t# density (g/cm3)\n"

@@ -111,12 +111,11 @@ def simulation(request):
             G4ISetup.write_input_files(userdir_path, sim_params)
             stdlogger.info("User input written to input files")
 
-            # Build command to call simulation wrapper 
-            wrapper_path = environ['G4EMMA_VENV_BIN'] + "/G4EMMA_wrapper.sh"
-            command = " ".join((wrapper_path, environ['G4EMMA_APP_PATH'], userdir_path + "/"))  #this last slash is important!!!
-            #command = '/opt/emma/g4emma/venv/bin/test.sh'
-
             stdlogger.info("About to call simulation wrapper: "+command)
+
+            # Build call to simulation wrapper
+            wrapper_path = environ['G4EMMA_WRAPPER']
+            command = " ".join((wrapper_path, environ['G4EMMA_SIM_PATH'], userdir_path + "/"))  #this last slash is important!!!
 
             # Store data in the session (everything the sim start consummer needs)
             request.session['cmd'] = command
