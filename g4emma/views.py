@@ -7,6 +7,7 @@ from django.conf import settings
 from channels import Channel
 from django.core import serializers
 from pathlib import Path
+from os import environ
 import logging
 
 stdlogger = logging.getLogger('django')
@@ -183,20 +184,23 @@ def tools(request):
 
 
 def results(request):
-    # Prep the info we need
-    outdir = "/media/"+ request.session['userdir'] +"/Results/"
+    outfiles_list = {}
 
-    #get a list of the generated output files
-    outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
+    if ('userdir' in request.session):
+        # Prep the info we need
+        outdir = "/media/"+ request.session['userdir'] +"/Results/"
 
-    # make a list from that command's output
-    outfiles_list = outfiles.strip().splitlines()
+        #get a list of the generated output files
+        outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
 
-    # Clear the session (leftover stuff is interpreted as indication of
-    # a sim error if the user goes back to the simulation page)
-    request.session.clear()
+        # make a list from that command's output
+        outfiles_list = outfiles.strip().splitlines()
 
-    return render(request, 'g4emma/results.html', {'outdir': outdir, 'outfiles': outfiles_list})
+        # Clear the session (leftover stuff is interpreted as indication of
+        # a sim error if the user goes back to the simulation page)
+        request.session.clear()
+
+    return render(request, 'g4emma/results.html', {'outfiles': outfiles_list})
 
 
 def progress(request):
