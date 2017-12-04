@@ -124,8 +124,7 @@ def simulation(request):
         if ('userdir_path' in request.session and
             Path(request.session['userdir_path']+"/Results/rigidities.dat").exists()):
             # let user know that something went wrong (give some ideas of what it could be)
-            err_msg = ("An error occured when trying to run the simulation. Check that target and "
-            "degrader thickness is greater than 1e-5, that elements chosen are possible, "
+            err_msg = ("An error occured when trying to run the simulation. Check that elements chosen are possible, "
             "and that the magnetic and electric rigidities determined by central "
             "trajectory parameters do not exceed maximum allowed values.\n\n")
 

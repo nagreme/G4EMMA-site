@@ -29,7 +29,7 @@ def ws_connect(message):
 
 # Connected to websocket.receive
 def ws_message(message):
-    pass # trust no one
+    pass # trust no one. not even urself
 
 
 # Connected to websocket.disconnect
