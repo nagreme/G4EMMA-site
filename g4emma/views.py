@@ -82,13 +82,6 @@ def simulation(request):
             userdir = G4ISetup.setup_unique_userdir(user_dirs_path)
             userdir_path = "{}{}".format(user_dirs_path, userdir)
 
-            if userdir is None:
-                #raise error
-                print("error: we weren't able to setup a userdir") #placeholder
-                # this is actually handled in the setup method
-                # so this is probably dead code and I really should remove it...
-
-
             # Overlay the user input on a set of default values so that we have a complete input set
             sim_params = G4ISetup.merge_with_defaults(sim_params)
 
@@ -121,7 +114,7 @@ def simulation(request):
 
         # forms are not all valid so send users back
         else:
-            return render
+            return render(request, 'g4emma/simulation.html', {'forms_list': forms_list})
 
 
     # If not POST
