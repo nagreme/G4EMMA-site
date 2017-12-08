@@ -177,6 +177,7 @@ def tools(request):
 
 def results(request):
     outfiles_list = {}
+    outdir = ""
 
     if ('userdir' in request.session):
         # Prep the info we need
@@ -192,7 +193,7 @@ def results(request):
         # a sim error if the user goes back to the simulation page)
         request.session.clear()
 
-    return render(request, 'g4emma/results.html', {'outfiles': outfiles_list})
+    return render(request, 'g4emma/results.html', {'outdir': outdir, 'outfiles': outfiles_list})
 
 
 def progress(request):
