@@ -9,6 +9,7 @@ from os import environ
 from channels import Channel
 from django.core import serializers
 from pathlib import Path
+from os import environ
 import logging
 
 stdlogger = logging.getLogger('django')
@@ -94,14 +95,6 @@ def simulation(request):
             stdlogger.info("Unique user dir created: " + userdir_path)
 
 
-            if userdir is None:
-                stdlogger.error("Unique user dir was not created")
-                #raise error
-                print("error: we weren't able to setup a userdir") #placeholder
-                # this is actually handled in the setup method
-                # so this is probably dead code and I really should remove it...
-
-
             # Overlay the user input on a set of default values so that we have a complete input set
             sim_params = G4ISetup.merge_with_defaults(sim_params)
             stdlogger.info("User params overlayed on defaults")
@@ -139,7 +132,7 @@ def simulation(request):
 
         # forms are not all valid so send users back
         else:
-            return render
+            return render(request, 'g4emma/simulation.html', {'forms_list': forms_list})
 
 
     # If not POST
@@ -149,8 +142,7 @@ def simulation(request):
         if ('userdir_path' in request.session and
             Path(request.session['userdir_path']+"/Results/rigidities.dat").exists()):
             # let user know that something went wrong (give some ideas of what it could be)
-            err_msg = ("An error occured when trying to run the simulation. Check that target and "
-            "degrader thickness is greater than 1e-5, that elements chosen are possible, "
+            err_msg = ("An error occured when trying to run the simulation. Check that elements chosen are possible, "
             "and that the magnetic and electric rigidities determined by central "
             "trajectory parameters do not exceed maximum allowed values.\n\n")
 
@@ -203,20 +195,29 @@ def tools(request):
 
 
 def results(request):
+<<<<<<< HEAD
     stdlogger.info("Call to results view")
 
     # Prep the info we need
     outdir = "/media/"+ request.session['userdir'] +"/Results/"
+=======
+    outfiles_list = {}
+    outdir = ""
 
-    #get a list of the generated output files
-    outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
+    if ('userdir' in request.session):
+        # Prep the info we need
+        outdir = "/media/"+ request.session['userdir'] +"/Results/"
+>>>>>>> master
 
-    # make a list from that command's output
-    outfiles_list = outfiles.strip().splitlines()
+        #get a list of the generated output files
+        outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
 
-    # Clear the session (leftover stuff is interpreted as indication of
-    # a sim error if the user goes back to the simulation page)
-    request.session.clear()
+        # make a list from that command's output
+        outfiles_list = outfiles.strip().splitlines()
+
+        # Clear the session (leftover stuff is interpreted as indication of
+        # a sim error if the user goes back to the simulation page)
+        request.session.clear()
 
     return render(request, 'g4emma/results.html', {'outdir': outdir, 'outfiles': outfiles_list})
 
