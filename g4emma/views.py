@@ -195,19 +195,13 @@ def tools(request):
 
 
 def results(request):
-<<<<<<< HEAD
     stdlogger.info("Call to results view")
-
-    # Prep the info we need
-    outdir = "/media/"+ request.session['userdir'] +"/Results/"
-=======
     outfiles_list = {}
     outdir = ""
 
     if ('userdir' in request.session):
         # Prep the info we need
         outdir = "/media/"+ request.session['userdir'] +"/Results/"
->>>>>>> master
 
         #get a list of the generated output files
         outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
