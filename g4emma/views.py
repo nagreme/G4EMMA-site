@@ -111,8 +111,6 @@ def simulation(request):
             G4ISetup.write_input_files(userdir_path, sim_params)
             stdlogger.info("User input written to input files")
 
-            stdlogger.info("About to call simulation wrapper: "+command)
-
             # Build call to simulation wrapper
             wrapper_path = environ['G4EMMA_WRAPPER']
             command = " ".join((wrapper_path, environ['G4EMMA_SIM_PATH'], userdir_path + "/"))  #this last slash is important!!!
@@ -126,6 +124,8 @@ def simulation(request):
             # TODO Fix this...
             # request.session['forms_list'] = data
 
+
+            stdlogger.info("About to call simulation wrapper: "+command)
 
             # Send sim start msg on that consummer's channel
             Channel("sim_start_channel").send({
