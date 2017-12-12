@@ -217,27 +217,34 @@ def results(request):
 
 
 def progress(request):
-    # Fetch number of events from the user input
-    num_events = 0
-    with open(request.session['userdir_path']+"/UserInput/beam.dat", 'r') as f:
-        # should be the first token on the first line
-        num_events = int(f.readline().split()[0])
+    # Make sure the user should be getting this page
+    if ('userdir_path' in request.session):
+        # Fetch number of events from the user input
+        num_events = 0
+        with open(request.session['userdir_path']+"/UserInput/beam.dat", 'r') as f:
+            # should be the first token on the first line
+            num_events = int(f.readline().split()[0])
 
-    z2 = ""
-    a2 = ""
-    # Number of events also depends on whether there is a rxn specified
-    with open(request.session['userdir_path']+"/UserInput/reaction.dat", 'r') as f:
-        # should be the first token on the first line
-        f.readline() # top comment
-        f.readline() # z1
-        f.readline() # a1
-        z2 = f.readline().split()[0]
-        a2 = f.readline().split()[0]
+        z2 = ""
+        a2 = ""
+        # Number of events also depends on whether there is a rxn specified
+        with open(request.session['userdir_path']+"/UserInput/reaction.dat", 'r') as f:
+            # should be the first token on the first line
+            f.readline() # top comment
+            f.readline() # z1
+            f.readline() # a1
+            z2 = f.readline().split()[0]
+            a2 = f.readline().split()[0]
 
-    # If there is a rxn, we have 3 sets of events: do beam, do prepare, and do rxn
-    if (z2 != "0" or a2 != "0"):
-        # I don't know if this is the logic they meant to express but
-        # I'm mirroring what's in the simulation app so it's consistent
-        num_events *= 3
+        # If there is a rxn, we have 3 sets of events: do beam, do prepare, and do rxn
+        if (z2 != "0" or a2 != "0"):
+            # I don't know if this is the logic they meant to express but
+            # I'm mirroring what's in the simulation app so it's consistent
+            num_events *= 3
 
-    return render(request, 'g4emma/progress.html', { 'num_events': num_events})
+        return render(request, 'g4emma/progress.html', { 'num_events': num_events})
+
+    # The user shouldn't be accessing this page
+    else:
+        # So send them elsewhere
+        return redirect('simulation')
