@@ -36,7 +36,7 @@ stdlogger = logging.getLogger('django')
 # PURPOSE: Get rid of all old user directories
 #---------------------------------------------------
 def cleanup_old_userdirs():
-    p = Path(settings.MEDIA_ROOT) #where the userdirs are stored
+    p = Path(settings.DATA_DIRS) #where the userdirs are stored
     #awhile_ago = datetime.now() - timedelta(hours=36)
     awhile_ago = datetime.now() - timedelta(days=2)
 
