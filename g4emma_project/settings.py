@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Vancouver'
 
 USE_I18N = True
 
@@ -122,8 +122,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Media files (other stuff, like the simulation output and input)
-MEDIA_ROOT = os.environ['G4EMMA_DATA_DIR']
+MEDIA_ROOT = os.environ['G4EMMA_MEDIA_DIR']
 MEDIA_URL = '/media/'
+
+DATA_DIRS = MEDIA_ROOT + os.environ['G4EMMA_DATA_DIR']
 
 
 # Channels

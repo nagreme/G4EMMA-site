@@ -47,7 +47,7 @@ import shutil
 #          older than 2 days
 #---------------------------------------------------
 def cleanup_old_userdirs():
-    p = Path(settings.MEDIA_ROOT) #where the userdirs are stored
+    p = Path(settings.DATA_DIRS) #where the userdirs are stored
     two_days_ago = datetime.now() - timedelta(days=2)
 
     # remove all user dirs older than 2 days

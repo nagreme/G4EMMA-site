@@ -78,7 +78,7 @@ def simulation(request):
             G4ISetup.cleanup_old_userdirs()
 
             # Setup a user directory, save its path
-            user_dirs_path = settings.MEDIA_ROOT
+            user_dirs_path = settings.DATA_DIRS
             userdir = G4ISetup.setup_unique_userdir(user_dirs_path)
             userdir_path = "{}{}".format(user_dirs_path, userdir)
 
