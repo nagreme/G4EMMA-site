@@ -17,7 +17,7 @@
 <!-- Main Content -->
 {% block main_content %}
 
-  <p id="submit-msg"></p>
+  <p id="submit-msg">Geant4 simulation of EMMA</p>
 
   {% if form.errors %}
     <p style="color: red;">
@@ -26,7 +26,7 @@
   {% endif %}
 
   <p class=err-msg>{{ general_err_msg }}</p>
-  <pre class=err-msg>{{ rigidity_err_msg }}</pre><br>
+  <pre class=err-msg>{{ rigidity_err_msg }}</pre>
 
   <form id="sim_form" action="" method="post" novalidate>
     <ul>

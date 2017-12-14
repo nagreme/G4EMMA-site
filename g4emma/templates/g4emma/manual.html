@@ -10,4 +10,65 @@
 <!-- Main Content -->
 {% block main_content %}
 <!-- Nomenclature info should be in here -->
+
+
+<h3>Using the Simulation</h3>
+<p>On the <a href="{% url 'simulation' %}">simulation page</a> you will see a form for simulation parameter entry and a submit button at the bottom of the page.
+The dropdown options will toggle optional fields. Note that if you enter some of the optional parameters and then make the fields disappear with the dropdown, the values you entered will not be there if you make the forms reappear.<br><br>
+The required fields are:</p>
+<ul>
+  <li>Number of events</li>
+  <li>Z (Proton number)</li>
+  <li>A (Nucleon number)</li>
+  <li>Q (Charge state)</li>
+  <li>Kinetic energy in MeV</li>
+  <li>Multiwire Proportional Counter pressure in Torr</li>
+  <li>Multiwire Proportional Counter temperature in °C</li>
+</ul>
+
+<p>All the fields are numerical and will only accept numbers, positive and negative signs, and decimal points as input, with the exception of the letter ‘E’ (upper or lower case) that can be used for scientific notation. </p>
+
+<p>Most fields have upper and lower bounds to ensure inputs remain within sensical bounderies.
+For example, temperatures cannot be below absolute zero and thickness parameters must be bigger than the Geant4 step size, which is about 4 × 10 −6 μm. </p>
+
+<p>Once you have entered all the chosen parameters, click the submit button or press enter while in a field to submit the simulation form.
+If optional parameters were left blank they will be given default values, usually 0 or some other lower bound. </p>
+
+<p>If the simulation parameters are valid, you will be redirected to the progress page, which is mostly blank save for a progress bar and a message about timeouts. A timeout is an error you could be given by our server if the simulation takes too long and you’re left hanging without results for a long time.</p>
+
+<p>When the simulation completes without error, you will be redirected to the results page.
+To avoid any issues, do not close the window or navigate to another link while the simulation is in progress.
+If there are errors, you will be redirected to the simulation form page and the
+messages displayed should give you an indication of how to fix things.
+Also consult the section Errors.</p>
+<br>
+<br>
+<h3>Results</h3>
+<p>Once at the results page, you should see a list of output files displayed.
+Click on these links to initiate their download.
+Be careful: if you navigate to or go back to the simulation page from the results page, your current results will no longer be available.
+There is currently no way to retrieve the results of previous runs so it is best to download what you need before doing anything else.</p>
+<br>
+<br>
+<h3>Errors</h3>
+<p>There are two broad types of errors that may occur: invalid input errors and simulation errors.
+Either of these types will bring you back to the simulation form page and display some error messages.
+If you get a mostly blank page with the words “Server Error”, something unexpected happened: please contact us. </p>
+<br>
+<h5>Invalid Input Errors</h5>
+<p>Invalid input errors (form validation errors) are caused by missing required parameters or inputs that violate upper or lower bound restrictions placed on simulation parameters.
+When these occur upon submit, you will stay on the simulation page and error messages will appear above the affected fields.</p>
+
+<p>Note that you will be scrolled back to the top of the page even if there are errors on fields further down on the page.</p>
+<br>
+<h5>Simulation Errors</h5>
+<p>Simulation errors will mostly be caused by too high magnetic and/or electric rigidity, but may be caused by non sensical element, i.e., invalid proton and nucleon number combination or other Geant4 quirks.</p>
+
+<p>In either case, the content of the rigidities.dat output file will be displayed at the top of the simulation page so that you can assess if the rigidities were the cause of the error.
+If you see “ERROR” after the magnetic and electric rigidity values, that was the cause of the error.
+If you see nothing or only “WARNING” after the rigidity values, they were not the cause of the error.</p>
+
+<p>Because of current implementation details, when simulation errors occur you will be redirected to the simulation page so the values you previously entered will no longer be there when error messages are displayed.
+You can get around this by going back a page, which will bring you back to the completed form you submitted that was the cause of the error, but the error messages will no longer be displayed.</p>
+
 {% endblock %}
