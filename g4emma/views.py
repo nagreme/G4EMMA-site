@@ -177,23 +177,33 @@ def tools(request):
 
 def results(request):
     outfiles_list = {}
-    outdir = ""
+    outplots_list = {}
+    outfiledir = ""
+    outplotdir= ""
 
     if ('userdir' in request.session):
         # Prep the info we need
-        outdir = "/media/"+ request.session['userdir'] +"/Results/"
+        outdir = "/media/userdirs/"+ request.session['userdir']
+        outfiledir = outdir+"/Results/"
+        outplotdir = outdir+"/Plots/"
+
+        sp.call("$G4EMMA_ROOT_MACRO_WRAPPER_PATH "+request.session['userdir_path'], shell=True)
 
         #get a list of the generated output files
         outfiles = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Results/ | awk '{print $9;}'", shell=True, universal_newlines=True))
+        outplots = str(sp.check_output("ls -l "+ request.session['userdir_path'] +"/Plots/ | awk '{print $9;}'", shell=True, universal_newlines=True))
 
         # make a list from that command's output
         outfiles_list = outfiles.strip().splitlines()
+        outplots_list = outplots.strip().splitlines()
 
         # Clear the session (leftover stuff is interpreted as indication of
         # a sim error if the user goes back to the simulation page)
         request.session.clear()
 
-    return render(request, 'g4emma/results.html', {'outdir': outdir, 'outfiles': outfiles_list})
+    return render(request, 'g4emma/results.html',
+        {'outfiledir': outfiledir, 'outplotdir':outplotdir,
+         'outfiles': outfiles_list, 'outplots': outplots_list})
 
 
 def progress(request):
