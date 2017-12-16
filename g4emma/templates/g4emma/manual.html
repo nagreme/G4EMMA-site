@@ -11,7 +11,6 @@
 {% block main_content %}
 <!-- Nomenclature info should be in here -->
 
-
 <h3>Using the Simulation</h3>
 <p>On the <a href="{% url 'simulation' %}">simulation page</a> you will see a form for simulation parameter entry and a submit button at the bottom of the page.
 The dropdown options will toggle optional fields. Note that if you enter some of the optional parameters and then make the fields disappear with the dropdown, the values you entered will not be there if you make the forms reappear.<br><br>
@@ -32,7 +31,7 @@ The required fields are:</p>
 For example, temperatures cannot be below absolute zero and thickness parameters must be bigger than the Geant4 step size, which is about 4 × 10 −6 μm. </p>
 
 <p>Once you have entered all the chosen parameters, click the submit button or press enter while in a field to submit the simulation form.
-If optional parameters were left blank they will be given default values, usually 0 or some other lower bound. </p>
+If optional parameters were left blank they will be given default values, usually 0 or some other lower bound.</p>
 
 <p>If the simulation parameters are valid, you will be redirected to the progress page, which is mostly blank save for a progress bar and a message about timeouts. A timeout is an error you could be given by our server if the simulation takes too long and you’re left hanging without results for a long time.</p>
 

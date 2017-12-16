@@ -11,8 +11,14 @@
 <div class="results">
   <ul>
     {% for outfile in outfiles %}
-      <li><a href="{{ outdir }}{{ outfile }}">{{ outfile }}</a></li>
+      <li><a href="{{ outfiledir }}{{ outfile }}">{{ outfile }}</a></li>
     {% endfor %}
   </ul>
 </div>
+
+{% for outplot in outplots %}
+<object data="{{ outplotdir }}{{ outplot }}" type="application/pdf" width="800" height="500">
+  alt : <a href="{{ outplotdir }}{{ outplot }}">{{ outplot }}</a>
+</object>
+{% endfor %}
 {% endblock %}

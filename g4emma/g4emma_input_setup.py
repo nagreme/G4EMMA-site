@@ -83,6 +83,12 @@ def setup_unique_userdir(user_dirs_path):
     stdlogger.info("The chosen PID was available: "+ userdir)
     Path(userdir_path).mkdir()
 
+    # Setup the subdirectories
+    Path(userdir_path + "/UserInput").mkdir()
+    Path(userdir_path + "/Results").mkdir()
+    Path(userdir_path + "/BeamSampling").mkdir()
+    Path(userdir_path + "/Plots").mkdir()
+
     return userdir
 
 
@@ -222,15 +228,8 @@ def merge_with_defaults(form_dict):
 def write_input_files(userdir, form_dict):
     # Make the input files directory
     infile_dir_name = "/UserInput"
-    if Path(userdir).exists():
-        infile_dir_path = userdir + infile_dir_name
-        Path(infile_dir_path).mkdir()
-        #also set up the results dir
-        outfile_dir_path = userdir + "/Results"
-        Path(outfile_dir_path).mkdir()
-        #also set up the beam sampling dir
-        outfile_dir_path = userdir + "/BeamSampling"
-        Path(outfile_dir_path).mkdir()
+    infile_dir_path = userdir + infile_dir_name
+    if Path(infile_dir_path).exists():
 
         # input file names
         alphaSource_file = infile_dir_path + "/alphaSource.dat"
