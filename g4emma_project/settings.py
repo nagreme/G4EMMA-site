@@ -26,12 +26,11 @@ with open('/opt/emma/g4emma_site_key/secret_key.txt') as f:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['g4emma.triumf.ca']
+ALLOWED_HOSTS = ['g4emma.triumf.ca', '127.0.0.1']
 
 # Secutiry settings addition for deployment
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = 'DENY'
