@@ -16,9 +16,11 @@
   </ul>
 </div>
 
-{% for outplot in outplots %}
-<object data="{{ outplotdir }}{{ outplot }}" type="application/pdf" width="800" height="500">
-  alt : <a href="{{ outplotdir }}{{ outplot }}">{{ outplot }}</a>
-</object>
-{% endfor %}
+<div class="plots">
+  {% for outplot in outplots %}
+    <object data="{{ outplotdir }}{{ outplot }}" type="application/pdf" width="800" height="500">
+      alt : <a href="{{ outplotdir }}{{ outplot }}">{{ outplot }}</a>
+    </object>
+  {% endfor %}
+</div>
 {% endblock %}

@@ -20,6 +20,8 @@ from datetime import datetime, timedelta
 from django.conf import settings
 import shutil
 import logging
+from os import chmod
+import stat #for permission modes
 
 #===========================
 # LOGGER SETUP
@@ -88,6 +90,13 @@ def setup_unique_userdir(user_dirs_path):
     Path(userdir_path + "/Results").mkdir()
     Path(userdir_path + "/BeamSampling").mkdir()
     Path(userdir_path + "/Plots").mkdir()
+
+    # For some reason, on our server the above directories don't follow the umask
+    # and don't get group write access, which I need to generate ROOT histograms
+    # This is a quirk of Python on some systems apparently
+    mode = stat.S_IRWXU | stat.S_IRWXG | stat.S_IROTH | stat.S_IXOTH # 775
+    chmod(userdir_path + "/Plots", mode)
+
 
     return userdir
 
