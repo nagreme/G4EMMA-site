@@ -207,6 +207,7 @@ def results(request):
         outfiledir = outdir+"/Results/"
         outplotdir = outdir+"/Plots/"
 
+        stdlogger.info("About to call ROOT macro wrapper")
         sp.call("$G4EMMA_ROOT_MACRO_WRAPPER_PATH "+request.session['userdir_path'], shell=True)
 
         #get a list of the generated output files
