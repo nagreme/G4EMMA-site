@@ -8,3 +8,5 @@ export G4EMMA_DB_PATH=/data/emma/g4emma_db/
 export G4EMMA_WRAPPER=/path/to/venv/bin/G4EMMA_wrapper.sh
 export G4EMMA_SIM_PATH=/other/path/to/G4EMMA
 export DJANGO_MANAGEMENT_PATH=/path/to
+export G4EMMA_ROOT_HIST_MACRO_PATH=/path/to/rootanalysis/GEMMArootanalysis_v1.C
+export G4EMMA_ROOT_MACRO_WRAPPER_PATH=/path/to/make_gemma_root_histograms.sh
