@@ -39,7 +39,8 @@ $(document).ready(function(){
 
       // redraw the bar
       // where are we at?
-      bar_percent = Math.round((curr_events/total_events)*100);
+      bar_percent = (curr_events/total_events)*100;
+      bar_percent = bar_percent.toFixed(2);
       bar_progress = Math.round((curr_events/total_events)*bar_size);
 
       bar = "[";
