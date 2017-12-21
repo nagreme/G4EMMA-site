@@ -143,9 +143,9 @@ def merge_with_defaults(form_dict):
                             center_traj_charge_state = form_dict['beam_charge_state'],
                             center_traj_kinetic_e = form_dict['beam_kinetic_e'],
                             #--------
-                            ion_chamber_inserted = "OUT",
+                            ion_chamber_inserted = "IN",
                             ion_chamber_pressure = 0,
-                            ion_chamber_temp = 0,
+                            ion_chamber_temp = 18, #18 suggested as default by Matt
                             mwpc_inserted = "IN", #this will always be in
                             rxn_z1_beam = form_dict['beam_proton_num'],
                             rxn_a1 = form_dict['beam_nucleon_num'],

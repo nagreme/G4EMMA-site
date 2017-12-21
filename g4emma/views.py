@@ -51,7 +51,6 @@ def simulation(request):
     G4Forms.Slit4ChoiceForm,
     G4Forms.Slit4Form,
     G4Forms.MWPCForm,
-    G4Forms.IonChamberChoiceForm,
     G4Forms.IonChamberForm
     ]
 
