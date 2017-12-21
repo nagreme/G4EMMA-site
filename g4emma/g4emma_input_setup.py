@@ -199,7 +199,7 @@ def merge_with_defaults(form_dict):
 
 
         # We need to apply a correction to change some 0/1 to OUT/IN or NO/YES
-        fields_to_correct = ["ion_chamber_inserted", "target_inserted", "degrader_1_inserted", "degrader_2_inserted"]
+        fields_to_correct = ["target_inserted", "degrader_1_inserted", "degrader_2_inserted"]
 
         for field in fields_to_correct:
             if (int(default_vals[field])):
