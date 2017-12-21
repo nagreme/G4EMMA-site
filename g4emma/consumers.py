@@ -58,16 +58,16 @@ def simulate(message):
     # point in having more specific except blocks here
     except Exception as e:
         stdlogger.exception(e)
+        stdlogger.error("Error happened for "+message.content['userdir'])
         Group(message.content['userdir']).send({
             'text': "error",
         })
 
     # If there was no exception:
     else:
-        stdlogger.info("Simulation completed without error")
+        stdlogger.info("Simulation completed without error ("+message.content['userdir']+")")
 
         #If we make it out of there the sim end msg should be sent
-        #TODO: Should I disable the management command that does the same thing?
         Group(message.content['userdir']).send({
             'text': "end",
         })
