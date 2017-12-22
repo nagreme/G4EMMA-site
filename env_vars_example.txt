@@ -1,12 +1,16 @@
 # Please pay attention to whether the env var is terminated with a '/' or not
 # This is unfortunately important and the app might not work if you change that
 
+export DJANGO_MANAGEMENT_PATH=/opt/emma/g4emma
+export G4EMMA_WRAPPER=/opt/emma/g4emma/venv/bin/G4EMMA_wrapper.sh
+export G4EMMA_DB_PATH=/data/emma/g4emma_db/
 export G4EMMA_MEDIA_DIR=/data/emma/
 export G4EMMA_DATA_DIR=userdirs/
+export G4EMMA_SIM_PATH=/opt/emma/G4EMMA
 export G4EMMA_LOG_PATH=/data/emma/logs
-export G4EMMA_DB_PATH=/data/emma/g4emma_db/
-export G4EMMA_WRAPPER=/path/to/venv/bin/G4EMMA_wrapper.sh
-export G4EMMA_SIM_PATH=/other/path/to/G4EMMA
-export DJANGO_MANAGEMENT_PATH=/path/to
-export G4EMMA_ROOT_HIST_MACRO_PATH=/path/to/rootanalysis/GEMMArootanalysis_v1.C
-export G4EMMA_ROOT_MACRO_WRAPPER_PATH=/path/to/make_gemma_root_histograms.sh
+export G4EMMA_ROOT_HIST_MACRO_PATH=/opt/emma/rootanalysis/GEMMArootanalysis_v1.C
+export G4EMMA_ROOT_MACRO_WRAPPER_PATH=/opt/emma/g4emma/venv/bin/make_gemma_root_histograms.sh
+export DJANGO_SETTINGS_MODULE=g4emma_project.settings
+export PYTHONPATH=/opt/emma/g4emma/venv/lib64/python3.4/site-packages
+export THISROOT_PATH=/opt/emma/root/v5.34.36/bin/mythisroot.sh
+export THISGEANT4_PATH=/opt/emma/geant4.9.6-install/bin/mygeant4.sh
